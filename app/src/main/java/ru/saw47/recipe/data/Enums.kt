@@ -1,0 +1,9 @@
+package ru.saw47.recipe.data
+
+enum class Category{
+    EUROPEAN, ASIAN, PAN_ASIAN, EASTERN, AMERICAN, RUSSIAN, MEDITERRANEAN, OTHER
+}
+
+enum class Type {
+    SNACK, SALAD, SOUP, MAIN, WOK, SUSHI, DESSERT, BAKERY, DRINK, SPIRIT, OTHER
+}

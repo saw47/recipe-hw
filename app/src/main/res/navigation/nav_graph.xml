@@ -3,26 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/contentMainFragment">
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="ru.saw47.recipe.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
+        android:id="@+id/contentMainFragment"
+        android:name="ru.saw47.recipe.ui.ContentMainFragment"
+        android:label="ContentMainFragment" >
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_contentMainFragment_to_authUserFragment"
+            app:destination="@id/authUserFragment" />
+        <action
+            android:id="@+id/action_contentMainFragment_to_expandRecipeFragment"
+            app:destination="@id/expandRecipeFragment" />
+        <action
+            android:id="@+id/action_contentMainFragment_to_editRecipeFragment"
+            app:destination="@id/editRecipeFragment" />
+        <action
+            android:id="@+id/action_contentMainFragment_to_checkboxFragment"
+            app:destination="@id/checkboxFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="ru.saw47.recipe.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        android:id="@+id/expandRecipeFragment"
+        android:name="ru.saw47.recipe.ExpandRecipeFragment"
+        android:label="fragment_expand_recipe"
+        tools:layout="@layout/fragment_expand_recipe" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_expandRecipeFragment_to_editRecipeFragment2"
+            app:destination="@id/editRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authUserFragment"
+        android:name="ru.saw47.recipe.AuthUserFragment"
+        android:label="fragment_auth_user"
+        tools:layout="@layout/fragment_auth_user" />
+    <fragment
+        android:id="@+id/checkboxFragment"
+        android:name="ru.saw47.recipe.CheckboxFragment"
+        android:label="fragment_checkbox"
+        tools:layout="@layout/fragment_checkbox" />
+    <fragment
+        android:id="@+id/editRecipeFragment"
+        android:name="ru.saw47.recipe.EditRecipeFragment"
+        android:label="fragment_edit_recipe"
+        tools:layout="@layout/fragment_edit_recipe" >
+        <action
+            android:id="@+id/action_editRecipeFragment_to_contentMainFragment"
+            app:destination="@id/contentMainFragment" />
     </fragment>
 </navigation>
