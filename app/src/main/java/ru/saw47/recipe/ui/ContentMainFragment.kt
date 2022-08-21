@@ -37,15 +37,6 @@ class ContentMainFragment : Fragment() {
             adapter.submitList(posts)
         }
 
-        viewModel.shareContent.observe(viewLifecycleOwner) { postContent ->
-            val intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, postContent)
-                type = "text/plain"
-            }
-            val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_share_post))
-            startActivity(shareIntent)
-        }
 
         viewModel.urlContent.observe(viewLifecycleOwner) { video ->
             if (video.isNullOrBlank()) return@observe

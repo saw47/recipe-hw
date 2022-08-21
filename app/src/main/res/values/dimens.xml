@@ -1,3 +1,10 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="common_spacing_24dp">24dp</dimen>
+    <dimen name="image_button_spacing_48dp">48dp</dimen>
+    <dimen name="recipe_card_height">240dp</dimen>
+    <dimen name="text_common_spacing_24sp">24sp</dimen>
+    <dimen name="text_middle_spacing_16sp">16sp</dimen>
+    <dimen name="margin_common_spacing_8dp">8dp</dimen>
+    <dimen name="corner_common_spacing_12dp">12dp</dimen>
 </resources>

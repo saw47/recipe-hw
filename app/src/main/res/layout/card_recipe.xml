@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feedPostFrame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <FrameLayout
+        android:id="@+id/recipeImageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/recipe_card_height"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/recipe_card_height"
+            android:alpha="0.8"
+            app:srcCompat="@drawable/food_card_background"
+            android:scaleType="centerCrop"
+
+            >
+
+        </androidx.appcompat.widget.AppCompatImageView>
+
+    </FrameLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/recipe_top_text_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_common_spacing_8dp"
+        android:layout_marginTop="@dimen/common_spacing_24dp"
+        android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+        app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recipe_top_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/recipeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_common_spacing_8dp"
+                android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+                android:ellipsize="end"
+                android:maxLength="100"
+                android:singleLine="false"
+                android:textSize="@dimen/text_common_spacing_24sp"
+                app:layout_constraintBottom_toTopOf="@+id/recipeCategory"
+                app:layout_constraintEnd_toStartOf="@id/optionsButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Жареные гвозди с изюмом" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/recipeCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_common_spacing_8dp"
+                android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+                android:singleLine="true"
+                android:textSize="@dimen/text_middle_spacing_16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/recipeName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recipeName"
+                tools:text="Кухня коренных народов крайнего севера и южного побережья чукотки" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/optionsButton"
+                style="@style/Widget.AppTheme.OptionsButton"
+                android:layout_width="@dimen/image_button_spacing_48dp"
+                android:layout_height="@dimen/image_button_spacing_48dp"
+                android:background="@android:color/transparent"
+                android:checkable="true"
+                android:contentDescription="@string/menu"
+                app:icon="@drawable/ic_baseline_menu_36"
+                app:iconGravity="top"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/recipeName"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.google.android.material.button.MaterialButton>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/recipe_bottom_text_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/recipe_favorite_icon_card"
+        app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
+        android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
+        android:layout_marginStart="@dimen/margin_common_spacing_8dp"
+        android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/recipeAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_spacing_24dp"
+            android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+            android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:maxLength="50"
+            android:gravity="center"
+            android:textSize="@dimen/text_middle_spacing_16sp"
+            tools:text="Автор кулинарного шедевра" />
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/recipe_favorite_icon_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recipe_bottom_text_card"
+
+        app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
+        android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
+        android:layout_marginStart="@dimen/margin_common_spacing_8dp"
+        android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favoriteButton"
+            style="@style/Widget.AppTheme.FavoriteButton"
+            android:layout_width="@dimen/image_button_spacing_48dp"
+            android:layout_height="@dimen/image_button_spacing_48dp"
+            android:background="@android:color/transparent"
+            android:checkable="true"
+            android:contentDescription="@string/add_to_favorite"
+            app:iconGravity="top"
+            >
+
+        </com.google.android.material.button.MaterialButton>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
