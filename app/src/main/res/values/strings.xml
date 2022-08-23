@@ -6,11 +6,6 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_to_favorite">Add to favorite</string>
     <string name="menu">Menu</string>
     <string name="favorite_text">favorite</string>
@@ -18,4 +13,10 @@
     <string name="all_recipe">ВСЕ РЕЦЕПТЫ</string>
     <string name="favorite_recipe">ИЗБРАННОЕ</string>
     <string name="insert_text">ВВЕДИТЕ ТЕКСТ ДЛЯ ПОИСКА</string>
+    <string name="cancel_edit">Отмена</string>
+    <string name="save_edit">Сохранить</string>
+    <string name="hint_recipe_name">Название</string>
+    <string name="hint_recipe_author">Автор</string>
+    <string name="hint_recipe_description">Описание</string>
+    <string name="add_new_step">Новый шаг</string>
 </resources>

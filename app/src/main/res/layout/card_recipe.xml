@@ -12,13 +12,13 @@
         android:id="@+id/recipeImageContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="@dimen/recipe_card_height"
+        android:minHeight="@dimen/recipe_card_height_240dp"
         >
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/recipeImage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/recipe_card_height"
+            android:layout_height="@dimen/recipe_card_height_240dp"
             android:alpha="0.8"
             app:srcCompat="@drawable/food_card_background"
             android:scaleType="centerCrop"
@@ -85,7 +85,7 @@
                 android:background="@android:color/transparent"
                 android:checkable="true"
                 android:contentDescription="@string/menu"
-                app:icon="@drawable/ic_baseline_menu_36"
+                app:icon="@drawable/ic_baseline_menu_36dp"
                 app:iconGravity="top"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
