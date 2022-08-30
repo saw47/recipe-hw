@@ -1,21 +1,24 @@
 package ru.saw47.recipe.ui
 
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import ru.saw47.recipe.R
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.*
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import ru.saw47.recipe.R
+import ru.saw47.recipe.adapter.RecipeAdapter
 import ru.saw47.recipe.data.Recipe
-import ru.saw47.recipe.databinding.ActivityMainBinding
+import ru.saw47.recipe.databinding.FragmentContentMainBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
 
 class ContentMainFragment : Fragment() {
-
     private val viewModel: RecipeViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -23,62 +26,59 @@ class ContentMainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val binding = ActivityMainBinding.inflate(
-            inflater,
-            container,
-            false
+        val binding = FragmentContentMainBinding.inflate(
+            inflater, container, false
         )
 
-        val adapter = PostAdapter(viewModel)
-        binding.postsRecyclerView.adapter = adapter
+        val adapter = RecipeAdapter(viewModel)
+        binding.recipeRecyclerView.adapter = adapter
+        viewModel.data.observe(viewLifecycleOwner) { recipes ->
+            adapter.submitList(recipes)
+        }
 
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts)
+        viewModel.editRecipe.observe(viewLifecycleOwner) {
+            println("edit ${it.id}")
+            findNavController().navigate(R.id.action_contentMainFragment_to_editRecipeFragment)
         }
 
 
-        viewModel.urlContent.observe(viewLifecycleOwner) { video ->
-            if (video.isNullOrBlank()) return@observe
-            val intent = Intent().apply {
-                action = ACTION_VIEW
-                data = Uri.parse(video)
+        viewModel.expandRecipe.observe(viewLifecycleOwner) {
+            println("expand ${it.id}")
+            findNavController().navigate(R.id.action_contentMainFragment_to_expandRecipeFragment)
+        }
+
+        binding.mainSearchCardTextTop.addTextChangedListener {
+            println("text search ${it}")
+            viewModel.searchBarOnClick(it.toString())
+        }
+
+        binding.cancelSearchButtonTop.setOnClickListener() {
+            viewModel.searchBarOnClick("")
+            binding.mainSearchCardTextTop.clearFocus()
+        }
+
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.filter_menu_top -> {
+                    findNavController().navigate(R.id.action_contentMainFragment_to_checkboxFragment)
+                    true
+                }
+                R.id.add_menu_top -> {
+                    viewModel.editRecipe.value = Recipe(
+                            id = -1L,
+                            author = "",
+                            name = ""
+                                )
+                    true
+                }
+                else -> false
             }
-            val videoIntent = Intent.createChooser(intent, null)
-            startActivity(videoIntent)
         }
-
-        viewModel.editPost.observe(viewLifecycleOwner) { post ->
-
-            if (post.content.isNullOrBlank() && post.video.isNullOrBlank()) {
-                return@observe
-            } else {
-                val direction = FeedFragmentDirections
-                    .actionFeedFragmentToPostContentFragment(post.content, post.video)
-                findNavController().navigate(direction)
-            }
-        }
-
-        binding.fab.setOnClickListener() {
-            val direction = FeedFragmentDirections
-                .actionFeedFragmentToPostContentFragment(null, null)
-            findNavController().navigate(direction)
-        }
-
-        viewModel.expandPost.observe(viewLifecycleOwner) { post ->
-            val bundle = Bundle()
-            val serializablePost = gson.toJson(post)
-            bundle.putString(POST, serializablePost)
-            findNavController().navigate(
-                R.id.action_feedFragment_to_postFullSizeFragment,
-                bundle
-            )
-        }
-
         return binding.root
     }
 
-    companion object {
-        const val POST = "post"
+    companion object{
+        const val RECIPE = "recipe"
     }
 }

@@ -7,14 +7,9 @@ interface RecipeRepository {
 
         fun add(recipe: Recipe)
         fun delete(recipe: Recipe)
-        fun edit(recipe: Recipe)
-
-        fun filterBy(id: Long? = null,
-                     author: String? = null,
-                     category: Category? = null,
-                     type: Type? = null
-                     )
-
+        fun save(recipe: Recipe)
+        fun filterBy(set: Set<Category>)
         fun searchByName(name: String?)
+        fun addToFavorite(recipe: Recipe)
 
 }

@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/cancel_edit"
+        android:id="@+id/cancel_edit_cb"
         android:icon="@drawable/ic_baseline_cancel_24dp"
         android:title="@string/cancel_edit"
         app:showAsAction="ifRoom"
@@ -10,8 +10,8 @@
         />
 
     <item
-        android:id="@+id/save_edit"
-        android:icon="@drawable/ic_baseline_save_24dp"
+        android:id="@+id/save_edit_cb"
+        android:icon="@drawable/ic_baseline_done_outline_24dp"
         android:title="@string/save_edit"
         app:showAsAction="ifRoom"
         android:contentDescription="@string/save_edit"

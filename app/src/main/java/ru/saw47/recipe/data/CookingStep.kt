@@ -1,7 +1,7 @@
 package ru.saw47.recipe.data
 
-class CookingStep(
+data class CookingStep(
     val step: Int,
     val description: String,
-    val imageUri: String
+    val imageUri: String?
 )

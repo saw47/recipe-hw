@@ -5,56 +5,68 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import ru.saw47.recipe.R
+import ru.saw47.recipe.adapter.RecipeStepsAdapter
+import ru.saw47.recipe.data.Recipe
+import ru.saw47.recipe.data.impl.TestTempRepository
+import ru.saw47.recipe.databinding.FragmentContentMainBinding
+import ru.saw47.recipe.databinding.FragmentEditRecipeBinding
+import ru.saw47.recipe.databinding.FragmentExpandRecipeBinding
+import ru.saw47.recipe.viewmodel.RecipeViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditRecipeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditRecipeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val viewModel: RecipeViewModel by activityViewModels()
+    lateinit var recipe: Recipe
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_recipe, container, false)
+    ): View {
+
+        val binding = FragmentEditRecipeBinding.inflate(
+            inflater, container, false
+        )
+
+        recipe = viewModel.editRecipe.value!!
+
+        val adapter = RecipeStepsAdapter(viewModel)
+        binding.recipeStepsRecyclerview.adapter = adapter
+
+        bind(recipe,binding)
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.cancel_edit_ed -> {
+                    binding.editRecipeName.text.clear()
+                    binding.editAuthorText.text.clear()
+                    findNavController().popBackStack()
+                    true
+                }
+                R.id.save_edit_ed -> {
+                    viewModel.saveOnClick(recipe)
+                    findNavController().popBackStack()
+                    true
+                }
+                else -> false
+            }
+        }
+
+
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditRecipeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditRecipeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun bind(recipe: Recipe, binding: FragmentEditRecipeBinding) {
+        this.recipe = recipe
+        with(binding) {
+            editRecipeName.setText(recipe.name)
+            editAuthorText.setText(recipe.author)
+
+        }
     }
+
 }

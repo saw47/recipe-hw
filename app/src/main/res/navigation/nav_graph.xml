@@ -9,9 +9,6 @@
         android:name="ru.saw47.recipe.ui.ContentMainFragment"
         android:label="ContentMainFragment" >
         <action
-            android:id="@+id/action_contentMainFragment_to_authUserFragment"
-            app:destination="@id/authUserFragment" />
-        <action
             android:id="@+id/action_contentMainFragment_to_expandRecipeFragment"
             app:destination="@id/expandRecipeFragment" />
         <action
@@ -23,30 +20,33 @@
     </fragment>
     <fragment
         android:id="@+id/expandRecipeFragment"
-        android:name="ru.saw47.recipe.ExpandRecipeFragment"
+        android:name="ru.saw47.recipe.ui.ExpandRecipeFragment"
         android:label="fragment_expand_recipe"
         tools:layout="@layout/fragment_expand_recipe" >
         <action
-            android:id="@+id/action_expandRecipeFragment_to_editRecipeFragment2"
+            android:id="@+id/action_expandRecipeFragment_to_editRecipeFragment"
             app:destination="@id/editRecipeFragment" />
+        <action
+            android:id="@+id/action_expandRecipeFragment_to_editStepFragment"
+            app:destination="@id/editStepFragment" />
     </fragment>
     <fragment
-        android:id="@+id/authUserFragment"
-        android:name="ru.saw47.recipe.AuthUserFragment"
-        android:label="fragment_auth_user"
-        tools:layout="@layout/fragment_auth_user" />
-    <fragment
         android:id="@+id/checkboxFragment"
-        android:name="ru.saw47.recipe.CheckboxFragment"
+        android:name="ru.saw47.recipe.ui.CheckboxFragment"
         android:label="fragment_checkbox"
         tools:layout="@layout/fragment_checkbox" />
     <fragment
         android:id="@+id/editRecipeFragment"
-        android:name="ru.saw47.recipe.EditRecipeFragment"
+        android:name="ru.saw47.recipe.ui.EditRecipeFragment"
         android:label="fragment_edit_recipe"
         tools:layout="@layout/fragment_edit_recipe" >
         <action
-            android:id="@+id/action_editRecipeFragment_to_contentMainFragment"
-            app:destination="@id/contentMainFragment" />
+            android:id="@+id/action_editRecipeFragment_to_editStepFragment"
+            app:destination="@id/editStepFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editStepFragment"
+        android:name="ru.saw47.recipe.ui.EditStepFragment"
+        android:label="fragment_edit_step"
+        tools:layout="@layout/fragment_edit_step" />
 </navigation>

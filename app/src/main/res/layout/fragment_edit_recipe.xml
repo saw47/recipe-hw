@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
-    android:background="@drawable/vegetables"
+    android:background="@drawable/food_vegetables"
     >
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,16 +19,16 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_bar"
+            app:menu="@menu/top_app_bar_edit_recipe"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_step_fab"
+        android:id="@+id/expand_add_step_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/common_spacing_24dp"
         android:layout_marginEnd="@dimen/common_spacing_24dp"
         android:src="@drawable/ic_baseline_step_add_24dp"
@@ -82,28 +82,12 @@
                 android:minHeight="@dimen/margin_fab_vertical_96dp"
                 />
 
-            <EditText
-                android:id="@+id/edit_description"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_common_spacing_8dp"
-                android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
-                android:layout_marginTop="@dimen/margin_common_spacing_8dp"
-                android:singleLine="false"
-                android:textSize="@dimen/text_middle_spacing_16sp"
-                android:background="@color/light_gray_pink"
-                android:layout_gravity="center_horizontal"
-                app:layout_constraintTop_toBottomOf="@id/edit_recipe_name"
-                android:hint="@string/hint_recipe_description"
-                android:gravity="center"
-                android:minHeight="@dimen/recipe_card_height_240dp"
-                />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/edit_fragment_steps_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/edit_description"
+                app:layout_constraintTop_toBottomOf="@id/edit_recipe_name"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,10 +96,9 @@
                 >
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recipe_steps_recyclerview"
+                    android:id="@+id/recipeStepsRecyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/favorite_tab_bar"
                     android:background="@android:color/transparent"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"

@@ -9,5 +9,8 @@
     <dimen name="corner_common_spacing_12dp">12dp</dimen>
     <dimen name="margin_fab_vertical_96dp">96dp</dimen>
     <dimen name="margin_fab_vertical_short_60dp">60dp</dimen>
+    <dimen name="margin_vertical_76dp">76dp</dimen>
+    <dimen name="margin_outline_2dp">2dp</dimen>
+    <dimen name="recipe_card_height_320dp">320dp</dimen>
 
 </resources>

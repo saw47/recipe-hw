@@ -1,12 +1,14 @@
 package ru.saw47.recipe.data
 
+import android.net.Uri
+
 data class Recipe(
     val id: Long,
-    val author: User,
+    val author: String,
     val name: String,
-    val image:String = "DUMMY", //TODO прикрутить дефолтную картинку-заглушку
+    val imageUri:Uri? = null,
     val category: Category = Category.OTHER,
-    val type: Type = Type.OTHER,
-    val steps: List<CookingStep> = mutableListOf()
+    val steps: List<CookingStep> = mutableListOf(),
+    val isFavorite: Boolean = false
 )
 

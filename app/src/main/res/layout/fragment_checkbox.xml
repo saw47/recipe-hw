@@ -1,14 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/checkbox_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CheckboxFragment">
+    android:background="@drawable/food_vegetables"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBarCheckBox"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/top_app_bar_checkbox" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="@dimen/margin_vertical_76dp"
+        >
+        <androidx.cardview.widget.CardView
+            android:id="@+id/recipe_top_text_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_common_spacing_8dp"
+            android:layout_marginTop="@dimen/margin_common_spacing_8dp"
+            android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+            app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/recipe_top_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/category_checkbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_common_spacing_8dp"
+                    android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+                    android:ellipsize="end"
+                    android:maxLength="100"
+                    android:singleLine="false"
+                    android:textSize="@dimen/text_common_spacing_24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/category_checkbox_name" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_american"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_AMERICAN"
+                    app:layout_constraintTop_toBottomOf="@id/category_checkbox"
+                    />
+                <CheckBox
+                    android:id="@+id/checkbox_asian"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_ASIAN"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_american"
+                    />
+                <CheckBox
+                    android:id="@+id/checkbox_pan_asian"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_PAN_ASIAN"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_asian"
+                    />
+                <CheckBox
+                    android:id="@+id/checkbox_mediterranean"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_MEDITERRANEAN"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_pan_asian"
+                    />
+                <CheckBox
+                    android:id="@+id/checkbox_russian"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_RUSSIAN"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_mediterranean"
+                    />
+                <CheckBox
+                    android:id="@+id/checkbox_eastern"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_EASTERN"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_russian"
+                    />
+                <CheckBox
+                    android:id="@+id/checkbox_european"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_EUROPEAN"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_eastern"
+                    />
+                <CheckBox
+                    android:id="@+id/checkbox_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/category_checkbox_OTHER"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_european"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,23 +1,26 @@
 package ru.saw47.recipe.adapter
 
 import android.view.LayoutInflater
-import android.view.View
+import android.view.View.inflate
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import androidx.appcompat.resources.Compatibility.Api21Impl.inflate
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.saw47.recipe.data.Recipe
+import ru.saw47.recipe.R
+import ru.saw47.recipe.data.*
+import ru.saw47.recipe.data.impl.TestTempRepository
 import ru.saw47.recipe.databinding.CardRecipeBinding
 
 class RecipeAdapter(
-    private val interactionListener: InteractionListener
+    private val recipeInteractionListener: RecipeInteractionListener
 ) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = CardRecipeBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding, interactionListener)
+        val binding = CardRecipeBinding.inflate(inflater)
+        return ViewHolder(binding, recipeInteractionListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -27,23 +30,23 @@ class RecipeAdapter(
 
     inner class ViewHolder(
         private val binding: CardRecipeBinding,
-        listener: InteractionListener
+        listener: RecipeInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var recipe: Recipe
 
         private val popupMenu by lazy {
-            PopupMenu(itemView.context, binding.optionsButton).apply {
-                inflate(R.menu.options_post)
-
+            val menu = PopupMenu(itemView.context, binding.optionsButton)
+            menu.apply {
+                inflate(R.menu.menu_recipe)
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.remove -> {
-                            listener.onRemoveClick(post.postId)
+                        R.id.edit_recipe_action -> {
+                            listener.editOnClick(recipe)
                             true
                         }
-                        R.id.edit -> {
-                            listener.onEditClick(post)
+                        R.id.delete_recipe_action -> {
+                            listener.deleteOnClick(recipe)
                             true
                         }
                         else -> false
@@ -54,15 +57,11 @@ class RecipeAdapter(
 
         init {
             binding.feedPostFrame.setOnClickListener {
-                listener.onFrameClick(post)
+                listener.frameOnShortClick(recipe)
             }
 
-            binding.likesButton.setOnClickListener {
-                listener.onLikeClick(post)
-            }
-
-            binding.shareButton.setOnClickListener {
-                listener.onRepostClick(post)
+            binding.favoriteButton.setOnClickListener {
+                listener.favoriteOnClick(recipe)
             }
 
             binding.optionsButton.setOnClickListener {
@@ -71,33 +70,24 @@ class RecipeAdapter(
             }
 
             popupMenu.setOnDismissListener() {
+                popupMenu.dismiss()
                 binding.optionsButton.isChecked = false
-            }
-
-            binding.video.setOnClickListener {
-                listener.onVideoLinkClicked(post)
             }
         }
 
         fun bind(recipe: Recipe) {
             this.recipe = recipe
             with(binding) {
-                authorNameTextView.text = post.authorName
-                mainTextView.text = post.content
-                postDateTextView.text = getSimpleDateFormat()
-                shareButton.text = Service.peopleCounter(post.repostCounter)
-                likesButton.text = Service.peopleCounter(post.favoriteCounter)
-                mainTextLink.text = post.link ?: ""
-                viewCount.text = Service.peopleCounter(post.viewCounter)
-                likesButton.isChecked = post.favoriteSet.contains(user.userId)
-                shareButton.isChecked = post.repostCounter >= 1
-                if (!post.video.isNullOrBlank()) {
-                    video.visibility = View.VISIBLE
+                recipeName.text = recipe.name
+                recipeAuthor.text = recipe.author
+                recipeCategory.text = TestTempRepository.getResourceText(recipe.category)
+                if (recipe.imageUri != null) {
+                    recipeImage.setImageURI(recipe.imageUri)
                 }
+                favoriteButton.isChecked = recipe.isFavorite
             }
         }
     }
-
 
     private object DiffCallback : DiffUtil.ItemCallback<Recipe>() {
         override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {

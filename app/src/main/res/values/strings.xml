@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Recipe</string>
     <string name="action_login">Login</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
@@ -19,4 +18,21 @@
     <string name="hint_recipe_author">Автор</string>
     <string name="hint_recipe_description">Описание</string>
     <string name="add_new_step">Новый шаг</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="checkbox_value">Здесь будет параметр</string>
+    <string name="category_checkbox_name">Категория</string>
+    <!-- EUROPEAN, ASIAN, PAN_ASIAN, EASTERN, AMERICAN, RUSSIAN, MEDITERRANEAN, OTHER -->
+    <string name="category_checkbox_AMERICAN">Америанская</string>
+    <string name="category_checkbox_ASIAN">Азиатская</string>
+    <string name="category_checkbox_EASTERN">Восточная</string>
+    <string name="category_checkbox_EUROPEAN">Европейская</string>
+    <string name="category_checkbox_MEDITERRANEAN">Средиземноморская</string>
+    <string name="category_checkbox_PAN_ASIAN">Паназиатская</string>
+    <string name="category_checkbox_RUSSIAN">Русская</string>
+    <string name="category_checkbox_OTHER">Другая/Без категории</string>
+    <string name="edit_recipe">Редактировать</string>
+    <string name="delete_recipe">Удалить</string>
+    <string name="add_recipe_string_res">Новый рецепт</string>
+    <string name="filter_menu_top_string">Фильтр</string>
+    <string name="add_menu_top_string">Новый рецепт</string>
 </resources>

@@ -2,39 +2,79 @@ package ru.saw47.recipe.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import ru.saw47.recipe.adapter.InteractionListener
+import androidx.lifecycle.MutableLiveData
+import ru.saw47.recipe.adapter.RecipeInteractionListener
+import ru.saw47.recipe.adapter.RecipeStepsListener
+import ru.saw47.recipe.data.Category
+import ru.saw47.recipe.data.Category.*
 import ru.saw47.recipe.data.Recipe
-import ru.saw47.recipe.data.impl.RoomRecipeRepository
+import ru.saw47.recipe.data.impl.TestTempRepository
+import ru.saw47.recipe.data.util.SingleLiveEvent
 
-class RecipeViewModel (application: Application
-) : AndroidViewModel(application), InteractionListener {
+class RecipeViewModel(
+    application: Application
+) : AndroidViewModel(application), RecipeInteractionListener, RecipeStepsListener {
 
-        private val repository = RoomRecipeRepository(application)
-        val data get() = repository.data
+    private val repository = TestTempRepository(application)
+    val data get() = repository.data
 
-        override fun shareOnClick(recipe: Recipe) {
-                TODO("Not yet implemented")
-        }
+    private val fullCheckBox = setOf(
+        EUROPEAN, ASIAN, PAN_ASIAN, EASTERN,
+        AMERICAN, RUSSIAN, MEDITERRANEAN, OTHER
+    )
 
-        override fun editOnClick(recipe: Recipe) {
-                TODO("Not yet implemented")
-        }
+    var checkboxSet = mutableSetOf<Category>()
+    val editRecipe = SingleLiveEvent<Recipe>()
+    val expandRecipe = SingleLiveEvent<Recipe>()
 
-        override fun deleteOnClick(recipe: Recipe) {
-                TODO("Not yet implemented")
-        }
+    init {
+        checkboxSet = fullCheckBox.toMutableSet()
+    }
 
-        override fun filterOnClick(recipe: Recipe) {
-                TODO("Not yet implemented")
-        }
+    fun skipCheckboxFilter() {
+        checkboxSet = fullCheckBox.toMutableSet()
+    }
 
-        override fun frameOnShortClick(recipe: Recipe) {
-                TODO("Not yet implemented")
-        }
+    override fun favoriteOnClick(recipe: Recipe) {
+        repository.addToFavorite(recipe)
+    }
 
-        override fun frameOnLongClick(recipe: Recipe) {
-                TODO("Not yet implemented")
-        }
+    override fun editOnClick(recipe: Recipe) {
+        editRecipe.value = recipe
+
+    }
+
+    override fun saveOnClick(recipe: Recipe) {
+        repository.save(recipe)
+    }
+
+    override fun deleteOnClick(recipe: Recipe) {
+        repository.delete(recipe)
+    }
+
+    override fun filterOnClick() {
+        repository.filterBy(checkboxSet)
+    }
+
+    override fun searchBarOnClick(string: String) {
+        repository.searchByName(string)
+    }
+
+    override fun frameOnShortClick(recipe: Recipe) {
+        expandRecipe.value = recipe
+    }
+
+    override fun frameOnLongClick(recipe: Recipe) {
+        TODO("Not yet implemented")
+    }
+
+    override fun editStepOnClick(recipe: Recipe) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteStepOnClick(recipe: Recipe) {
+        TODO("Not yet implemented")
+    }
 
 
 }

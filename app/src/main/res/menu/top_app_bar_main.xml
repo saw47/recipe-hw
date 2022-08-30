@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/filter_menu_top"
+        android:icon="@drawable/ic_baseline_filter_alt_48dp"
+        android:title="@string/filter_menu_top_string"
+        app:showAsAction="ifRoom"
+        android:contentDescription="@string/filter_menu_top_string"
+        />
+
+    <item
+        android:id="@+id/add_menu_top"
+        android:icon="@drawable/ic_baseline_add_48dp"
+        android:title="@string/add_menu_top_string"
+        app:showAsAction="ifRoom"
+        android:contentDescription="@string/add_menu_top_string"
+        />
+
+</menu>
