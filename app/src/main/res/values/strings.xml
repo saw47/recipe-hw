@@ -35,4 +35,5 @@
     <string name="add_recipe_string_res">Новый рецепт</string>
     <string name="filter_menu_top_string">Фильтр</string>
     <string name="add_menu_top_string">Новый рецепт</string>
+    <string name="add_step_recipe">Добавить шаг</string>
 </resources>

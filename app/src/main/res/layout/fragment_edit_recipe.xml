@@ -102,8 +102,7 @@
                     android:background="@android:color/transparent"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    tools:visibility="visible"
+                    tools:listitem="@layout/recipe_step_card"
                     >
 
                 </androidx.recyclerview.widget.RecyclerView>

@@ -14,13 +14,14 @@ import ru.saw47.recipe.data.impl.TestTempRepository
 import ru.saw47.recipe.databinding.CardRecipeBinding
 
 class RecipeAdapter(
-    private val recipeInteractionListener: RecipeInteractionListener
+    private val recipeInteractionListener: RecipeInteractionListener,
+    private val stepsInteractionListener: StepsInteractionListener
 ) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = CardRecipeBinding.inflate(inflater)
-        return ViewHolder(binding, recipeInteractionListener)
+        return ViewHolder(binding, recipeInteractionListener, stepsInteractionListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,7 +31,8 @@ class RecipeAdapter(
 
     inner class ViewHolder(
         private val binding: CardRecipeBinding,
-        listener: RecipeInteractionListener
+        listener: RecipeInteractionListener,
+        stepListener: StepsInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var recipe: Recipe
@@ -49,6 +51,10 @@ class RecipeAdapter(
                             listener.deleteOnClick(recipe)
                             true
                         }
+                        R.id.add_step_recipe_action -> {
+                            stepListener.addNewStepOnClick(recipe)
+                            true
+                        }
                         else -> false
                     }
                 }
@@ -62,6 +68,7 @@ class RecipeAdapter(
 
             binding.favoriteButton.setOnClickListener {
                 listener.favoriteOnClick(recipe)
+                bind(recipe)
             }
 
             binding.optionsButton.setOnClickListener {

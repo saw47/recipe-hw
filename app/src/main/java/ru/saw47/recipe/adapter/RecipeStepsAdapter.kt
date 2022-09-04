@@ -9,13 +9,13 @@ import ru.saw47.recipe.data.*
 import ru.saw47.recipe.databinding.RecipeStepCardBinding
 
 class RecipeStepsAdapter(
-    private val recipeStepsListener: RecipeStepsListener
-) : ListAdapter<CookingStep, RecipeStepsAdapter.ViewHolder>(DiffCallback) {
+    private val stepsInteractionListener: StepsInteractionListener
+) : ListAdapter<Step, RecipeStepsAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecipeStepCardBinding.inflate(inflater)
-        return ViewHolder(binding, recipeStepsListener)
+        return ViewHolder(binding, stepsInteractionListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -25,25 +25,35 @@ class RecipeStepsAdapter(
 
     inner class ViewHolder(
         private val binding: RecipeStepCardBinding,
-        listener: RecipeStepsListener
+        listener: StepsInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var step: CookingStep
+        lateinit var step: Step
 
-        fun bind(step: CookingStep) {
+        fun bind(step: Step) {
             this.step = step
             with(binding) {
                 stepText.text = step.description
             }
         }
+
+        init {
+            binding.editStepFab.setOnClickListener() {
+                listener.editStepOnClick(step)
+            }
+            binding.removeStepFab.setOnClickListener() {
+                listener.deleteStepOnClick(step)
+            }
+        }
     }
 
-    object DiffCallback : DiffUtil.ItemCallback<CookingStep>() {
-        override fun areItemsTheSame(oldItem: CookingStep, newItem: CookingStep): Boolean {
-            return oldItem.step == newItem.step
+
+    object DiffCallback : DiffUtil.ItemCallback<Step>() {
+        override fun areItemsTheSame(oldItem: Step, newItem: Step): Boolean {
+            return oldItem.stepId == newItem.stepId
         }
 
-        override fun areContentsTheSame(oldItem: CookingStep, newItem: CookingStep): Boolean {
+        override fun areContentsTheSame(oldItem: Step, newItem: Step): Boolean {
             return oldItem == newItem
         }
 

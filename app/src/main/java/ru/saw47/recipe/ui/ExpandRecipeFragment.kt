@@ -24,19 +24,24 @@ class ExpandRecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
     lateinit var recipe: Recipe
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val binding = FragmentExpandRecipeBinding.inflate(inflater, container, false)
         val context: Context = this.context ?: throw Exception("no context^")
 
         val adapter = RecipeStepsAdapter(viewModel)
+        viewModel.stepData.observe(viewLifecycleOwner) {
+            adapter.submitList(viewModel.getStepsList(recipe))
+        }
 
-        viewModel.data.observe(viewLifecycleOwner) { steps ->
-            adapter.submitList(recipe.steps)
+        viewModel.editStep.observe(viewLifecycleOwner) {
+            println("edit stepId ${it?.stepId} from recipe ${it?.parentId}")
+            if (it != null) {
+                println("editStep ${it.stepId}")
+                findNavController().navigate(R.id.action_expandRecipeFragment_to_editStepFragment)
+            } else println("editStep NULL")
         }
 
         binding.recipeStepsRecyclerview.adapter = adapter
@@ -55,8 +60,14 @@ class ExpandRecipeFragment : Fragment() {
                         true
                     }
                     R.id.delete_recipe_action -> {
-                        findNavController().popBackStack()
                         viewModel.deleteOnClick(recipe)
+                        viewModel.clearEditRecipeValue()
+                        findNavController()
+                            .navigate(R.id.action_expandRecipeFragment_to_contentMainFragment)
+                        true
+                    }
+                    R.id.add_step_recipe_action -> {
+                        viewModel.addNewStepOnClick(recipe)
                         true
                     }
                     else -> false
@@ -74,7 +85,15 @@ class ExpandRecipeFragment : Fragment() {
             binding.expandRecipeOptionsButton.isChecked = false
         }
 
+        binding.expandRecipeFavoriteButton.setOnClickListener {
+            viewModel.favoriteOnClick(recipe)
+            bind(recipe, binding)
+        }
 
+        binding.expandAddStepFab.setOnClickListener() {
+            viewModel.addNewStepOnClick(recipe)
+            println("addNewStepOnClick in recipe ${recipe.id}")
+        }
         return binding.root
     }
 
@@ -85,8 +104,6 @@ class ExpandRecipeFragment : Fragment() {
             expandRecipeAuthor.text = recipe.author
             expandRecipeCategory.text = TestTempRepository.getResourceText(recipe.category)
             expandRecipeFavoriteButton.isChecked = recipe.isFavorite
-
-
         }
     }
 }

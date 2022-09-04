@@ -34,7 +34,8 @@
                 android:src="@drawable/food_card_background"
                 android:background="@drawable/food_black_white"
                 android:scaleType="centerCrop"
-                app:layout_constraintHeight_max="@dimen/recipe_card_height_320dp"
+                app:layout_constraintHeight_max="@dimen/recipe_card_dimension_320dp"
+                app:layout_constraintWidth_max="@dimen/recipe_card_dimension_480dp"
                 >
             </ImageView>
 

@@ -13,4 +13,8 @@ interface RecipeInteractionListener {
     fun frameOnShortClick(recipe: Recipe)
     fun frameOnLongClick(recipe: Recipe)
     fun saveOnClick(recipe: Recipe)
+    fun addNewOnClick()
+    fun tabBarItemClick(itemPosition: Int)
+    fun canceEditRecipelOnClick()
+
 }

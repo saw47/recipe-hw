@@ -12,5 +12,7 @@
     <dimen name="margin_vertical_76dp">76dp</dimen>
     <dimen name="margin_outline_2dp">2dp</dimen>
     <dimen name="recipe_card_height_320dp">320dp</dimen>
+    <dimen name="recipe_card_dimension_320dp">320dp</dimen>
+    <dimen name="recipe_card_dimension_480dp">480dp</dimen>
 
 </resources>

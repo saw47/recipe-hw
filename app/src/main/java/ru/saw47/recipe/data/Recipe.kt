@@ -8,7 +8,6 @@ data class Recipe(
     val name: String,
     val imageUri:Uri? = null,
     val category: Category = Category.OTHER,
-    val steps: List<CookingStep> = mutableListOf(),
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 )
 

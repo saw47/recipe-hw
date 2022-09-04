@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_expandRecipeFragment_to_editStepFragment"
             app:destination="@id/editStepFragment" />
+        <action
+            android:id="@+id/action_expandRecipeFragment_to_contentMainFragment"
+            app:destination="@id/contentMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkboxFragment"
