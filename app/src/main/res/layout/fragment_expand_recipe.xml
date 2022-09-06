@@ -86,18 +86,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         >
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/expand_add_step_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_marginTop="@dimen/margin_fab_vertical_short_60dp"
-            android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
-            android:src="@drawable/ic_baseline_step_add_24dp"
-            >
-        </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
@@ -137,10 +125,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipeStepsRecyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/expand_recipe_bottom_text_card"
         tools:listitem="@layout/recipe_step_card"
+        android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
         >
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -152,8 +142,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardBackgroundColor="@color/white"
-
+        app:cardBackgroundColor="@color/soft_gray"
         app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
         android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
         android:layout_marginStart="@dimen/margin_common_spacing_8dp"

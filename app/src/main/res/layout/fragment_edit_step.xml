@@ -80,15 +80,22 @@
 
                     </ImageView>
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/delete_image_button"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_baseline_delete_72dp"
-                        android:background="@android:color/transparent"
+                        app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
                         >
-                    </androidx.appcompat.widget.AppCompatImageButton>
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/delete_image_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_baseline_delete_72dp"
+                            android:background="@color/soft_gray"
+                            >
+                        </androidx.appcompat.widget.AppCompatImageButton>
+                    </androidx.cardview.widget.CardView>
                 </FrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

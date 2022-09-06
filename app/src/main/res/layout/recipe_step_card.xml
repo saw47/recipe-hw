@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="@dimen/margin_common_spacing_8dp"
+
     >
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/recipe_card_380dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:minHeight="@dimen/recipe_card_height_240dp"
+        android:elevation="@dimen/margin_common_spacing_8dp"
         app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
-
+        android:layout_gravity="center"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/feedStepFrame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
             >
 
             <ImageView
                 android:id="@+id/step_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/recipe_card_height_320dp"
                 android:src="@drawable/food_card_background"
                 android:background="@drawable/food_black_white"
                 android:scaleType="centerCrop"
-                app:layout_constraintHeight_max="@dimen/recipe_card_dimension_320dp"
-                app:layout_constraintWidth_max="@dimen/recipe_card_dimension_480dp"
+                android:foregroundGravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 >
             </ImageView>
 
@@ -50,7 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:cardBackgroundColor="@color/light_gray_pink"
+                app:cardBackgroundColor="@color/gray_pink"
                 >
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -59,14 +59,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_common_spacing_8dp"
                     android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+                    android:minHeight="@dimen/margin_fab_vertical_96dp"
+                    android:maxHeight="@dimen/recipe_card_height_320dp"
+                    android:minWidth="@dimen/recipe_card_height_320dp"
                     android:singleLine="false"
+                    android:maxLines="12"
+                    android:ellipsize="end"
                     android:textSize="@dimen/text_middle_spacing_16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/recipeName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recipeName"
-                    android:background="@color/light_gray_pink"
-                    tools:text="Берем молодых котов, варим до готовности 2-3 часа на медленном огне, подаём украшенными веточкой розмарина." />
+                    android:background="@color/gray_pink"
+                    tools:text="Берем котов, варим" />
 
             </androidx.cardview.widget.CardView>
 
@@ -84,11 +89,11 @@
                     android:id="@+id/edit_step_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
                     app:fabSize="mini"
                     android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
                     android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
                     android:src="@drawable/ic_baseline_edit_24dp"
+                    android:layout_gravity="end|bottom"
                     >
                 </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
@@ -96,10 +101,10 @@
                     android:id="@+id/remove_step_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
+                    android:layout_gravity="start|bottom"
                     app:fabSize="mini"
-                    android:layout_marginBottom="@dimen/margin_fab_vertical_short_60dp"
-                    android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+                    android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
+                    android:layout_marginStart="@dimen/margin_common_spacing_8dp"
                     android:src="@drawable/ic_baseline_delete_24dp"
                     >
                 </com.google.android.material.floatingactionbutton.FloatingActionButton>
@@ -107,4 +112,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -28,11 +28,10 @@
         android:id="@+id/expand_add_step_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|center"
         android:layout_marginBottom="@dimen/common_spacing_24dp"
-        android:layout_marginEnd="@dimen/common_spacing_24dp"
-        android:src="@drawable/ic_baseline_step_add_24dp"
         android:contentDescription="@string/add_new_step"
+        android:src="@drawable/ic_baseline_step_add_24dp"
         >
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
@@ -96,12 +95,11 @@
                 >
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recipeStepsRecyclerview"
+                    android:id="@+id/recipeEditStepsRecyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="horizontal"
                     tools:listitem="@layout/recipe_step_card"
                     >
 

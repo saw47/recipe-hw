@@ -1,38 +1,51 @@
 package ru.saw47.recipe.viewmodel
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import ru.saw47.recipe.adapter.RecipeInteractionListener
-import ru.saw47.recipe.adapter.StepsInteractionListener
+import ru.saw47.recipe.adapter.AppListener
 import ru.saw47.recipe.data.Category
 import ru.saw47.recipe.data.Category.*
 import ru.saw47.recipe.data.Step
 import ru.saw47.recipe.data.Recipe
 import ru.saw47.recipe.data.Repository
 import ru.saw47.recipe.data.impl.RepositoryImpl
-import ru.saw47.recipe.data.impl.TestTempRepository
 import ru.saw47.recipe.data.util.SingleLiveEvent
 import ru.saw47.recipe.db.AppDb
-import ru.saw47.recipe.db.RecipeDao
 import java.lang.Exception
 
 class RecipeViewModel(
     application: Application
-) : AndroidViewModel(application), RecipeInteractionListener, StepsInteractionListener {
+) : AndroidViewModel(application), AppListener {
 
+    var favoriteIndex = false
+    val context = application
 
     private val repository: Repository = RepositoryImpl(
         dao = AppDb.getInstance(
             context = application
-        ).recipeDao
+        ).appDao
     )
 
-    val data get() = repository.data
-    val stepData get() = repository.stepsData
+    val recipeData
+        get() = repository.data
 
- //   var favoriteIndex = repository.onlyFavoriteIndex
-    var favoriteIndex = 1
+    val stepData
+        get() = repository.stepsData
 
+    val expandRecipe = SingleLiveEvent<Recipe>()
+
+    val editRecipe = SingleLiveEvent<Recipe?>()
+
+    fun clearEditRecipeValue() {
+        editRecipe.value = null
+    }
+
+    val editStep = SingleLiveEvent<Step?>()
+
+    fun clearEditStepValue() {
+        editStep.value = null
+    }
 
     private val fullCheckBox = setOf(
         EUROPEAN, ASIAN, PAN_ASIAN, EASTERN,
@@ -41,14 +54,6 @@ class RecipeViewModel(
 
     var checkboxSet = mutableSetOf<Category>()
 
-    val editRecipe = SingleLiveEvent<Recipe?>()
-    fun clearEditRecipeValue(){
-        editRecipe.value = null
-    }
-
-    val editStep = SingleLiveEvent<Step?>()
-
-    val expandRecipe = SingleLiveEvent<Recipe>()
     init {
         checkboxSet = fullCheckBox.toMutableSet()
     }
@@ -58,24 +63,26 @@ class RecipeViewModel(
     }
 
     fun getStepsList(recipe: Recipe): List<Step> {
-        return repository.getSteps(recipe)
+        return stepData.value?.filter { it.parentId == recipe.id }?.sortedBy { it.stepId }
+            ?: emptyList()
     }
 
     override fun favoriteOnClick(recipe: Recipe) {
         repository.addToFavorite(recipe)
-
     }
+
     override fun editOnClick(recipe: Recipe) {
         editRecipe.value = recipe
+        println("viewmodel edit value id - ${recipe.id} name - ${recipe.name}")
     }
 
     override fun saveOnClick(recipe: Recipe) {
-        repository.save(recipe)
+        if (recipe.id == null) repository.add(recipe) else repository.replace(recipe)
     }
 
     override fun addNewOnClick() {
         val newRecipe = Recipe(
-            id = 0,
+            id = null,
             author = "",
             name = ""
         )
@@ -83,9 +90,9 @@ class RecipeViewModel(
     }
 
     override fun tabBarItemClick(itemPosition: Int) {
-        when (itemPosition) {
-            0 -> repository.filterByFavorite(false)
-            1 -> repository.filterByFavorite(true)
+        favoriteIndex = when (itemPosition) {
+            0 -> false
+            1 -> true
             else -> throw Exception("Incorrect index")
         }
     }
@@ -94,19 +101,24 @@ class RecipeViewModel(
         editRecipe.value = null
     }
 
-
     override fun deleteOnClick(recipe: Recipe) {
         repository.delete(recipe)
     }
 
     override fun filterOnClick() {
-        repository.filterBy(checkboxSet)
+        if (checkboxSet != fullCheckBox) {
+            //TODO noimpl
+        } else {
+            skipCheckboxFilter()
+            //TODO noimpl
+        }
     }
 
     override fun searchBarOnClick(string: String) {
-        repository.searchByName(string)
+        //TODO no impl
     }
 
+    //OK
     override fun frameOnShortClick(recipe: Recipe) {
         expandRecipe.value = recipe
     }
@@ -115,11 +127,17 @@ class RecipeViewModel(
         TODO("Not yet implemented")
     }
 
-
-
     //STEP actions
     override fun cancelEditStepOnClick() {
         editStep.value = null
+    }
+
+    override fun deleteStepImageOnClick(step: Step) {
+        repository.editStep(
+            step.copy(
+                imageUri = null
+            )
+        )
     }
 
     override fun editStepOnClick(step: Step) {
@@ -131,25 +149,42 @@ class RecipeViewModel(
     }
 
     override fun saveStepOnClick(step: Step) {
-        if (step.stepId == -1) {
+        if (step.stepId == null) {
             repository.addNewStep(step)
         } else {
             repository.editStep(step)
         }
     }
 
-//    fun getSteps(recipe: Recipe): List<CookingStep>
-//    fun addNewStep(step: CookingStep)
-//    fun deleteStep(step: CookingStep)
-//    fun editStep(step: CookingStep)
-
     override fun addNewStepOnClick(recipe: Recipe) {
-        val newStep = Step(
-            parentId = recipe.id ?: 0,  //сделать нормальное создание
-            stepId = -1,
-            description = "",
-            imageUri = null
+        if(recipe.id == null) {
+            Toast.makeText(context, "Сначала нужно сохранить рецепт", Toast.LENGTH_SHORT).show()
+        } else{
+            val newStep = Step(
+                    parentId = recipe.id,
+                    stepId = null,
+                    description = "",
+                    imageUri = null
+                )
+            editStep.value = newStep
+        }
+    }
+
+    companion object {
+        private val categoryTextMap = mapOf<Category, String>(
+            Category.EUROPEAN to "Европейская",
+            Category.ASIAN to "Азиатская",
+            Category.PAN_ASIAN to "Паназиатская",
+            Category.EASTERN to "Восточная",
+            Category.AMERICAN to "Американская",
+            Category.RUSSIAN to "Русская",
+            Category.MEDITERRANEAN to "Средиземноморская",
+            Category.OTHER to "Другая"
         )
-        editStep.value = newStep
+
+        fun getResourceText(category: Category): String {
+            return categoryTextMap[category]
+                ?: throw Exception("invalid request, no such a category")
+        }
     }
 }

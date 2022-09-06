@@ -1,12 +1,9 @@
 package ru.saw47.recipe.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.*
 import androidx.navigation.fragment.findNavController
@@ -31,29 +28,25 @@ class ContentMainFragment : Fragment() {
             inflater, container, false
         )
 
-        val adapter = RecipeAdapter(viewModel, viewModel)
+        val adapter = RecipeAdapter(viewModel)
         binding.recipeRecyclerView.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner) { recipes ->
+        viewModel.recipeData.observe(viewLifecycleOwner) {recipes ->
             adapter.submitList(recipes)
         }
 
-//        viewModel.favoriteIndex.observe(viewLifecycleOwner) {
-//            val tabAll = tabLayoutMain.getTabAt(0)
-//            val tabFavorite = tabLayoutMain.getTabAt(1)
-//            if (it) {
-//                binding.tabLayoutMain.selectTab(tabFavorite)
-//                println("tabFavorite")
-//            } else {
-//                binding.tabLayoutMain.selectTab(tabAll)
-//                println("tabAll")
-//            }
-//        }
+        if (!viewModel.favoriteIndex) {
+            binding.tabLayoutMain.selectTab(binding.tabLayoutMain.getTabAt(0))
+            println("tabAll")
+        } else {
+            binding.tabLayoutMain.selectTab(binding.tabLayoutMain.getTabAt(1))
+            println("tabFavorite")
+        }
 
         viewModel.editRecipe.observe(viewLifecycleOwner) {
             if (it != null) {
                 println("edit ${it.id}")
                 findNavController().navigate(R.id.action_contentMainFragment_to_editRecipeFragment)
-            } else println("edit NULL")
+            } else println("viewModel.editRecipe.observe edit NULL!!!!")
         }
 
         viewModel.expandRecipe.observe(viewLifecycleOwner) {
@@ -93,8 +86,10 @@ class ContentMainFragment : Fragment() {
                         viewModel.tabBarItemClick(tab.position)
                     }
                 }
+
                 override fun onTabReselected(tab: TabLayout.Tab?) {
                 }
+
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
                 }
             }

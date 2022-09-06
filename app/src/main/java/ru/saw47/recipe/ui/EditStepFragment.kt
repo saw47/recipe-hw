@@ -40,6 +40,11 @@ class EditStepFragment : Fragment() {
             it.hideKeyboard()
         }
 
+        binding.deleteImageButton.setOnClickListener() {
+            viewModel.deleteStepImageOnClick(step)
+            bind(step.copy(description = binding.editStepDescription.text.toString()), binding)
+        }
+
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.cancel_edit_ed_st -> {
@@ -53,6 +58,9 @@ class EditStepFragment : Fragment() {
                     true
                 }
                 R.id.save_edit_ed_st -> {
+                    step = step.copy(
+                        description = binding.editStepDescription.text.toString()
+                    )
                     viewModel.saveStepOnClick(step)
                     findNavController().popBackStack()
                     true

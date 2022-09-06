@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.recipe_step_card.view.*
 import ru.saw47.recipe.data.*
 import ru.saw47.recipe.databinding.RecipeStepCardBinding
 
@@ -34,6 +35,9 @@ class RecipeStepsAdapter(
             this.step = step
             with(binding) {
                 stepText.text = step.description
+                if (step.imageUri != null) {
+                    stepImage.setImageURI(step.imageUri)
+                }
             }
         }
 

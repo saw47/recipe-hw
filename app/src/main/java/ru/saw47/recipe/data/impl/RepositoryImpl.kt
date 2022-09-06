@@ -1,78 +1,65 @@
 package ru.saw47.recipe.data.impl
 
-import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import ru.saw47.recipe.data.Category
 import ru.saw47.recipe.data.Step
 import ru.saw47.recipe.data.Recipe
 import ru.saw47.recipe.data.Repository
-import ru.saw47.recipe.db.RecipeDao
+import ru.saw47.recipe.db.AppDao
 import ru.saw47.recipe.db.toEntity
 import ru.saw47.recipe.db.toModel
 
-class RepositoryImpl(private val dao: RecipeDao,
+class RepositoryImpl(private val dao: AppDao,
 
 ) : Repository {
 
-    private val recipes
-       get() = checkNotNull(data.value) {
-       }
-
     override val data: LiveData<List<Recipe>>
-        get() = dao.getall().map { entities ->
+        get() = dao.getAll().map { entities ->
             entities.map { it.toModel()}
         }
 
-    override val stepsData: LiveData<List<Step>>
-        get() = TODO("Not yet implemented")
 
+
+    override val stepsData: LiveData<List<Step>>
+        get() = dao.getSteps().map { entities ->
+            entities.map { it.toModel() }
+        }
 
     override fun add(recipe: Recipe) {
-        //логика создания новоо рецепта, сохранениня нет, для это го саве
+        dao.insert(recipe.toEntity())
+        println("repository add" + recipe.id)
     }
 
     override fun delete(recipe: Recipe) {
+        println("delete in repo id ${recipe.id}")
         dao.delete(recipe.toEntity())
+        println("repository del" + recipe.id)
     }
 
-    override fun save(recipe: Recipe) {
-        dao.insert(recipe.toEntity())
-    }
-
-    override fun filterBy(set: Set<Category>) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun searchByName(name: String?) {
-        //Not yet implemented
+    override fun replace(recipe: Recipe) {
+        val r = dao.update(recipe.toEntity())
+        println("replace id -" + recipe.id)
+        println("replace name -" + recipe.name)
+        println("update $r entities")
+        dao.getAll().map { entities ->
+            entities.map { it.toModel()}
+        }.value?.forEach { println("id - ${it.id}\n") }?: println("net ID mfc")
     }
 
     override fun addToFavorite(recipe: Recipe) {
-        dao.like(recipe.id)
-    }
-
-    override fun filterByFavorite(onlyFavorite: Boolean) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSteps(recipe: Recipe): List<Step> {
-        return emptyList()
+        recipe.id?.let { dao.like(it) }
     }
 
     override fun addNewStep(step: Step) {
-        TODO("Not yet implemented")
+        dao.insertStep(step.toEntity())
     }
 
     override fun deleteStep(step: Step) {
-        TODO("Not yet implemented")
+        dao.deleteStep(step.toEntity())
     }
 
     override fun editStep(step: Step) {
-        TODO("Not yet implemented")
+        dao.updateStep(step.toEntity())
     }
-
-
 }

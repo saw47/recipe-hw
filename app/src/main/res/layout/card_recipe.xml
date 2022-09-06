@@ -1,108 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/margin_common_spacing_8dp"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:padding="@dimen/margin_common_spacing_8dp">
-
+    android:layout_width="wrap_content"
+    >
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/recipe_card_380dp"
+        android:layout_height="@dimen/recipe_card_380dp"
+        android:layout_gravity="center"
         app:cardCornerRadius="@dimen/corner_common_spacing_12dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/feedPostFrame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/light_gray_pink"
             android:clickable="true"
-            android:focusable="true">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/recipeImage"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/recipe_card_height_240dp"
-                android:alpha="0.8"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/food_card_background">
-
-            </androidx.appcompat.widget.AppCompatImageView>
+            android:focusable="true"
+            >
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/recipe_top_text_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_common_spacing_8dp"
-                android:layout_marginTop="@dimen/common_spacing_24dp"
-                android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+                android:layout_margin="@dimen/corner_common_spacing_12dp"
                 app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/recipe_favorite_icon_card"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/recipe_top_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/recipeName"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_common_spacing_8dp"
                         android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
+                        android:paddingEnd="@dimen/image_button_spacing_56dp"
                         android:background="@android:color/transparent"
                         android:ellipsize="end"
-                        android:maxLength="100"
-                        android:minLines="2"
+                        android:maxLines="3"
                         android:textSize="@dimen/text_common_spacing_24sp"
                         app:layout_constraintBottom_toTopOf="@+id/recipeCategory"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_min="@dimen/recipe_card_height_240dp"
-                        tools:text="Жареные с изюмом" />
+                        tools:text="TEXT" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/recipeCategory"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_common_spacing_8dp"
                         android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
                         android:background="@android:color/transparent"
                         android:singleLine="true"
+                        android:paddingEnd="@dimen/image_button_spacing_56dp"
+
                         android:textSize="@dimen/text_middle_spacing_16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/recipeName"
-                        tools:text="Кухня" />
+                        tools:text="TEXT CATEGORY" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/optionsButton"
                         style="@style/Widget.AppTheme.OptionsButton"
-                        android:layout_width="@dimen/image_button_spacing_48dp"
-                        android:layout_height="@dimen/image_button_spacing_48dp"
-                        android:background="@color/white"
-                        android:checkable="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:contentDescription="@string/menu"
                         app:icon="@drawable/ic_baseline_menu_36dp"
-                        app:iconGravity="top"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
+                        app:layout_constraintTop_toTopOf="parent"
+                        >
                     </com.google.android.material.button.MaterialButton>
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/recipe_bottom_text_card"
@@ -113,22 +95,22 @@
                 android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
                 app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/recipe_favorite_icon_card"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/recipeAuthor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_spacing_24dp"
+                    android:layout_marginStart="@dimen/margin_common_spacing_8dp"
                     android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
                     android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
                     android:ellipsize="end"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:maxLength="50"
                     android:singleLine="false"
                     android:textSize="@dimen/text_middle_spacing_16sp"
-                    tools:text="Автор кулинарного шедевра" />
+                    tools:text="TEXT" />
 
             </androidx.cardview.widget.CardView>
 
@@ -137,14 +119,12 @@
                 android:id="@+id/recipe_favorite_icon_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_common_spacing_8dp"
-                android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
-                android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
-
+                android:layout_margin="@dimen/margin_common_spacing_8dp"
                 app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/recipe_bottom_text_card"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/recipe_bottom_text_card">
+
+                >
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/favoriteButton"
@@ -154,13 +134,12 @@
                     android:background="@android:color/transparent"
                     android:checkable="true"
                     android:contentDescription="@string/add_to_favorite"
-                    app:iconGravity="top">
-
+                    app:iconGravity="top"
+                    >
                 </com.google.android.material.button.MaterialButton>
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.cardview.widget.CardView>
+</LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>

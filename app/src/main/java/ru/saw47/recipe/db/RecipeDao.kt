@@ -11,33 +11,18 @@ import ru.saw47.recipe.data.Recipe
 interface RecipeDao {
 
     @Query("SELECT * FROM recipes ORDER BY id DESC")
-    fun getall(): LiveData<List<RecipeEntity>>
+    fun getAll(): LiveData<List<RecipeEntity>>
 
     @Insert()
     fun insert(recipe: RecipeEntity)
 
-//    @Query("UPDATE recipes SET author = :author AND name = :name AND imageUri = :imageUri " +
-//                "AND category = :category AND isFavorite = :isFavorite WHERE id = :id "
-//    )
-//    fun update(
-//        id: Long,
-//        author: String,
-//        name: String,
-//        imageUri: String,
-//        category: String,
-//        isFavorite: Int
-//    )
-
     @Query("UPDATE recipes SET isFavorite = CASE WHEN isFavorite THEN 0 ELSE 1 END WHERE id = :id")
     fun like(id: Long)
-
-//    @Query("DELETE FROM recipes WHERE id = :id")
-//    fun delete(id: Long)
 
     @Delete
     fun delete(recipe: RecipeEntity)
 
     @Update
-    fun update(recipe: RecipeEntity)
+    fun update(recipe: RecipeEntity): Int
 
 }

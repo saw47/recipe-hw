@@ -31,11 +31,13 @@ class EditRecipeFragment : Fragment() {
         recipe = viewModel.editRecipe.value!!
 
         val adapter = RecipeStepsAdapter(viewModel)
-        binding.recipeStepsRecyclerview.adapter = adapter
+        binding.recipeEditStepsRecyclerview.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) {
-            adapter.submitList(viewModel.getStepsList(recipe))
+        viewModel.stepData.observe(viewLifecycleOwner) { steps ->
+            adapter.submitList(steps.filter { it.parentId == recipe.id })
         }
+
+        bind(recipe,binding)
 
 
         viewModel.editStep.observe(viewLifecycleOwner) {
@@ -45,8 +47,6 @@ class EditRecipeFragment : Fragment() {
                 findNavController().navigate(R.id.action_editRecipeFragment_to_editStepFragment)
             } else println("editStep NULL")
         }
-
-        bind(recipe,binding)
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -58,6 +58,11 @@ class EditRecipeFragment : Fragment() {
                     true
                 }
                 R.id.save_edit_ed -> {
+                    recipe = recipe.copy(
+                        name = binding.editRecipeName.text.toString(),
+                        author = binding.editAuthorText.text.toString()
+                    //TODO прибить категорию, забыл про выбор и добавление
+                    )
                     viewModel.saveOnClick(recipe)
                     viewModel.clearEditRecipeValue()
                     findNavController().popBackStack()

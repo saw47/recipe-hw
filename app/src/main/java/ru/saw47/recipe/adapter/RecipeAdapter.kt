@@ -1,27 +1,24 @@
 package ru.saw47.recipe.adapter
 
 import android.view.LayoutInflater
-import android.view.View.inflate
 import android.view.ViewGroup
-import androidx.appcompat.resources.Compatibility.Api21Impl.inflate
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.saw47.recipe.R
 import ru.saw47.recipe.data.*
-import ru.saw47.recipe.data.impl.TestTempRepository
 import ru.saw47.recipe.databinding.CardRecipeBinding
+import ru.saw47.recipe.viewmodel.RecipeViewModel.Companion.getResourceText
 
 class RecipeAdapter(
-    private val recipeInteractionListener: RecipeInteractionListener,
-    private val stepsInteractionListener: StepsInteractionListener
+    private val listener: AppListener,
 ) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = CardRecipeBinding.inflate(inflater)
-        return ViewHolder(binding, recipeInteractionListener, stepsInteractionListener)
+        return ViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -31,8 +28,7 @@ class RecipeAdapter(
 
     inner class ViewHolder(
         private val binding: CardRecipeBinding,
-        listener: RecipeInteractionListener,
-        stepListener: StepsInteractionListener
+        listener: AppListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var recipe: Recipe
@@ -40,7 +36,7 @@ class RecipeAdapter(
         private val popupMenu by lazy {
             val menu = PopupMenu(itemView.context, binding.optionsButton)
             menu.apply {
-                inflate(R.menu.menu_recipe)
+                inflate(R.menu.menu_recipe_rv)
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.edit_recipe_action -> {
@@ -51,10 +47,7 @@ class RecipeAdapter(
                             listener.deleteOnClick(recipe)
                             true
                         }
-                        R.id.add_step_recipe_action -> {
-                            stepListener.addNewStepOnClick(recipe)
-                            true
-                        }
+
                         else -> false
                     }
                 }
@@ -87,9 +80,9 @@ class RecipeAdapter(
             with(binding) {
                 recipeName.text = recipe.name
                 recipeAuthor.text = recipe.author
-                recipeCategory.text = TestTempRepository.getResourceText(recipe.category)
+                recipeCategory.text = getResourceText(recipe.category)
                 if (recipe.imageUri != null) {
-                    recipeImage.setImageURI(recipe.imageUri)
+                    //recipeImage.setImageURI(recipe.imageUri)
                 }
                 favoriteButton.isChecked = recipe.isFavorite
             }
@@ -106,4 +99,5 @@ class RecipeAdapter(
         }
 
     }
+
 }

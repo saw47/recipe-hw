@@ -4,13 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ru.saw47.recipe.data.Step
 
 @Database(
-    entities = [RecipeEntity::class],
-    version = 1
+    entities = [RecipeEntity::class, StepEntity::class],
+    version = 2
 )
 abstract class AppDb: RoomDatabase() {
-    abstract val recipeDao: RecipeDao
+    abstract val appDao: AppDao
 
     companion object {
         @Volatile
@@ -24,7 +25,7 @@ abstract class AppDb: RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
-                context, AppDb::class.java,"app,db"
+                context, AppDb::class.java,"app.db"
             ).allowMainThreadQueries().build()
     }
 

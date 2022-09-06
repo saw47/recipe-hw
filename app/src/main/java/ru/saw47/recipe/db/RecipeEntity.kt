@@ -10,7 +10,7 @@ import ru.saw47.recipe.data.Category
 class RecipeEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long,
+    val id: Long = 0L,
     @ColumnInfo(name = "author")
     val author: String,
     @ColumnInfo(name = "name")

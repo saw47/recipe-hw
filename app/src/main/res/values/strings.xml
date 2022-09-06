@@ -11,7 +11,7 @@
     <string name="dummy">А это у нас пока, к сожалению, не реализовано</string>
     <string name="all_recipe">ВСЕ РЕЦЕПТЫ</string>
     <string name="favorite_recipe">ИЗБРАННОЕ</string>
-    <string name="insert_text">ВВЕДИТЕ ТЕКСТ ДЛЯ ПОИСКА</string>
+    <string name="insert_text">ПОИСК</string>
     <string name="cancel_edit">Отмена</string>
     <string name="save_edit">Сохранить</string>
     <string name="hint_recipe_name">Название</string>

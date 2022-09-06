@@ -29,7 +29,7 @@
         android:layout_marginTop="@dimen/margin_vertical_76dp"
         >
         <androidx.cardview.widget.CardView
-            android:id="@+id/recipe_top_text_card"
+            android:id="@+id/recipe_top_text_card_cb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_common_spacing_8dp"

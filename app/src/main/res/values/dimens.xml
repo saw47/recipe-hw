@@ -14,5 +14,8 @@
     <dimen name="recipe_card_height_320dp">320dp</dimen>
     <dimen name="recipe_card_dimension_320dp">320dp</dimen>
     <dimen name="recipe_card_dimension_480dp">480dp</dimen>
+    <dimen name="image_button_spacing_56dp">56dp</dimen>
+    <dimen name="margin_vertical_108dp">108dp</dimen>
+    <dimen name="recipe_card_380dp">380dp</dimen>
 
 </resources>

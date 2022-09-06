@@ -10,4 +10,5 @@ interface StepsInteractionListener {
     fun saveStepOnClick(step: Step)
     fun addNewStepOnClick(recipe: Recipe)
     fun cancelEditStepOnClick()
+    fun deleteStepImageOnClick(step: Step)
 }

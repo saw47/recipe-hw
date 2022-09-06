@@ -1,22 +1,20 @@
 package ru.saw47.recipe.ui
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.saw47.recipe.R
 import ru.saw47.recipe.adapter.RecipeStepsAdapter
 import ru.saw47.recipe.data.Recipe
-import ru.saw47.recipe.data.impl.TestTempRepository
 import ru.saw47.recipe.databinding.FragmentExpandRecipeBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
+import ru.saw47.recipe.viewmodel.RecipeViewModel.Companion.getResourceText
 import java.lang.Exception
 
 class ExpandRecipeFragment : Fragment() {
@@ -31,10 +29,14 @@ class ExpandRecipeFragment : Fragment() {
         val binding = FragmentExpandRecipeBinding.inflate(inflater, container, false)
         val context: Context = this.context ?: throw Exception("no context^")
 
+        recipe = viewModel.expandRecipe.value!!
         val adapter = RecipeStepsAdapter(viewModel)
-        viewModel.stepData.observe(viewLifecycleOwner) {
-            adapter.submitList(viewModel.getStepsList(recipe))
+        binding.recipeStepsRecyclerview.adapter = adapter
+
+        viewModel.stepData.observe(viewLifecycleOwner) { steps ->
+            adapter.submitList(steps.filter { it.parentId == recipe.id })
         }
+
 
         viewModel.editStep.observe(viewLifecycleOwner) {
             println("edit stepId ${it?.stepId} from recipe ${it?.parentId}")
@@ -44,13 +46,13 @@ class ExpandRecipeFragment : Fragment() {
             } else println("editStep NULL")
         }
 
-        binding.recipeStepsRecyclerview.adapter = adapter
-        recipe = viewModel.expandRecipe.value!!
+
+
         bind(recipe, binding)
 
         val menu = PopupMenu(context, binding.expandRecipeOptionsButton)
         menu.apply {
-            inflate(R.menu.menu_recipe)
+            inflate(R.menu.menu_recipe_expand)
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.edit_recipe_action -> {
@@ -87,22 +89,21 @@ class ExpandRecipeFragment : Fragment() {
 
         binding.expandRecipeFavoriteButton.setOnClickListener {
             viewModel.favoriteOnClick(recipe)
+            recipe = recipe.copy(
+                isFavorite = !recipe.isFavorite
+            )
             bind(recipe, binding)
         }
 
-        binding.expandAddStepFab.setOnClickListener() {
-            viewModel.addNewStepOnClick(recipe)
-            println("addNewStepOnClick in recipe ${recipe.id}")
-        }
         return binding.root
     }
 
     private fun bind(recipe: Recipe, binding: FragmentExpandRecipeBinding) {
-        this.recipe = recipe
+        //this.recipe = recipe
         with(binding) {
             expandRecipeName.text = recipe.name
             expandRecipeAuthor.text = recipe.author
-            expandRecipeCategory.text = TestTempRepository.getResourceText(recipe.category)
+            expandRecipeCategory.text = getResourceText(recipe.category)
             expandRecipeFavoriteButton.isChecked = recipe.isFavorite
         }
     }
