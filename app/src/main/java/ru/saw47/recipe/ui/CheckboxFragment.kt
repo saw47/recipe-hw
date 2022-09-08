@@ -35,7 +35,7 @@ class CheckboxFragment : Fragment() {
                     true
                 }
                 R.id.save_edit_cb -> {
-                    viewModel.filterOnClick()
+                    viewModel.filterOnCategoryClick()
                     findNavController().popBackStack()
                     true
                 }

@@ -8,13 +8,14 @@ interface RecipeInteractionListener {
     fun favoriteOnClick(recipe: Recipe)
     fun editOnClick(recipe: Recipe)
     fun deleteOnClick(recipe: Recipe)
-    fun filterOnClick()
-    fun searchBarOnClick(string: String)
+    fun filterOnCategoryClick()
+
+    fun searchBarOnClick(string: String?)
     fun frameOnShortClick(recipe: Recipe)
     fun frameOnLongClick(recipe: Recipe)
     fun saveOnClick(recipe: Recipe)
     fun addNewOnClick()
-    fun tabBarItemClick(itemPosition: Int)
-    fun canceEditRecipelOnClick()
+    fun tabBarItemFavoriteClick(itemPosition: Int)
+    fun cancelEditRecipeOnClick()
 
 }

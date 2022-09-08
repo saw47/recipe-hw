@@ -47,7 +47,6 @@ class RecipeAdapter(
                             listener.deleteOnClick(recipe)
                             true
                         }
-
                         else -> false
                     }
                 }
@@ -55,6 +54,8 @@ class RecipeAdapter(
         }
 
         init {
+
+
             binding.feedPostFrame.setOnClickListener {
                 listener.frameOnShortClick(recipe)
             }

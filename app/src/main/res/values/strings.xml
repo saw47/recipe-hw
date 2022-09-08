@@ -29,11 +29,24 @@
     <string name="category_checkbox_MEDITERRANEAN">Средиземноморская</string>
     <string name="category_checkbox_PAN_ASIAN">Паназиатская</string>
     <string name="category_checkbox_RUSSIAN">Русская</string>
-    <string name="category_checkbox_OTHER">Другая/Без категории</string>
+    <string name="category_checkbox_OTHER">Другая</string>
     <string name="edit_recipe">Редактировать</string>
     <string name="delete_recipe">Удалить</string>
     <string name="add_recipe_string_res">Новый рецепт</string>
     <string name="filter_menu_top_string">Фильтр</string>
     <string name="add_menu_top_string">Новый рецепт</string>
     <string name="add_step_recipe">Добавить шаг</string>
+
+
+    <string-array name="category_spinner">
+        <item>Америанская</item>
+        <item>Азиатская</item>
+        <item>Восточная</item>
+        <item>Европейская</item>
+        <item>Средиземноморская</item>
+        <item>Паназиатская</item>
+        <item>Русская</item>
+        <item>Другая</item>
+    </string-array>
+
 </resources>

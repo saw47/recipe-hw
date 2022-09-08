@@ -11,7 +11,11 @@ import ru.saw47.recipe.data.Recipe
 interface RecipeDao {
 
     @Query("SELECT * FROM recipes ORDER BY id DESC")
-    fun getAll(): LiveData<List<RecipeEntity>>
+    fun getAll(): List<RecipeEntity>
+
+    @Query("SELECT * FROM recipes WHERE isFavorite = 1")
+    fun getFavorite(): List<RecipeEntity>
+
 
     @Insert()
     fun insert(recipe: RecipeEntity)

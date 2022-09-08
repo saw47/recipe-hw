@@ -1,10 +1,13 @@
 package ru.saw47.recipe.ui
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.saw47.recipe.R
@@ -12,6 +15,8 @@ import ru.saw47.recipe.adapter.RecipeStepsAdapter
 import ru.saw47.recipe.data.Recipe
 import ru.saw47.recipe.databinding.FragmentEditRecipeBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
+import java.lang.Exception
+
 
 class EditRecipeFragment : Fragment() {
 
@@ -27,6 +32,7 @@ class EditRecipeFragment : Fragment() {
         val binding = FragmentEditRecipeBinding.inflate(
             inflater, container, false
         )
+        val context: Context = this.context ?: throw Exception("no context^")
 
         recipe = viewModel.editRecipe.value!!
 
@@ -37,7 +43,18 @@ class EditRecipeFragment : Fragment() {
             adapter.submitList(steps.filter { it.parentId == recipe.id })
         }
 
-        bind(recipe,binding)
+        //spinner>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        val spinner: Spinner = binding.categorySpinner
+        val spinnerAdapter = ArrayAdapter.createFromResource(
+            context,
+            R.array.category_spinner,
+            android.R.layout.simple_spinner_item
+        )
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = spinnerAdapter
+        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        bind(recipe, binding)
+
 
 
         viewModel.editStep.observe(viewLifecycleOwner) {
@@ -61,7 +78,7 @@ class EditRecipeFragment : Fragment() {
                     recipe = recipe.copy(
                         name = binding.editRecipeName.text.toString(),
                         author = binding.editAuthorText.text.toString()
-                    //TODO прибить категорию, забыл про выбор и добавление
+                        //TODO прибить категорию, забыл про выбор и добавление
                     )
                     viewModel.saveOnClick(recipe)
                     viewModel.clearEditRecipeValue()
@@ -86,7 +103,6 @@ class EditRecipeFragment : Fragment() {
         with(binding) {
             editRecipeName.setText(recipe.name)
             editAuthorText.setText(recipe.author)
-
         }
     }
 

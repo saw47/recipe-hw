@@ -3,6 +3,7 @@ package ru.saw47.recipe.viewmodel
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import ru.saw47.recipe.adapter.AppListener
 import ru.saw47.recipe.data.Category
 import ru.saw47.recipe.data.Category.*
@@ -17,8 +18,6 @@ import java.lang.Exception
 class RecipeViewModel(
     application: Application
 ) : AndroidViewModel(application), AppListener {
-
-    var favoriteIndex = false
     val context = application
 
     private val repository: Repository = RepositoryImpl(
@@ -34,38 +33,25 @@ class RecipeViewModel(
         get() = repository.stepsData
 
     val expandRecipe = SingleLiveEvent<Recipe>()
-
     val editRecipe = SingleLiveEvent<Recipe?>()
+    val editStep = SingleLiveEvent<Step?>()
+    var favoriteIndex = MutableLiveData<Boolean>()
+    var checkboxSet = mutableSetOf<Category>()
 
     fun clearEditRecipeValue() {
         editRecipe.value = null
     }
 
-    val editStep = SingleLiveEvent<Step?>()
-
     fun clearEditStepValue() {
         editStep.value = null
     }
 
-    private val fullCheckBox = setOf(
-        EUROPEAN, ASIAN, PAN_ASIAN, EASTERN,
-        AMERICAN, RUSSIAN, MEDITERRANEAN, OTHER
-    )
-
-    var checkboxSet = mutableSetOf<Category>()
 
     init {
-        checkboxSet = fullCheckBox.toMutableSet()
+        favoriteIndex.value = false
+        checkboxSet = RepositoryImpl.fullCheckBox.toMutableSet()
     }
 
-    fun skipCheckboxFilter() {
-        checkboxSet = fullCheckBox.toMutableSet()
-    }
-
-    fun getStepsList(recipe: Recipe): List<Step> {
-        return stepData.value?.filter { it.parentId == recipe.id }?.sortedBy { it.stepId }
-            ?: emptyList()
-    }
 
     override fun favoriteOnClick(recipe: Recipe) {
         repository.addToFavorite(recipe)
@@ -73,7 +59,6 @@ class RecipeViewModel(
 
     override fun editOnClick(recipe: Recipe) {
         editRecipe.value = recipe
-        println("viewmodel edit value id - ${recipe.id} name - ${recipe.name}")
     }
 
     override fun saveOnClick(recipe: Recipe) {
@@ -89,36 +74,44 @@ class RecipeViewModel(
         editRecipe.value = newRecipe
     }
 
-    override fun tabBarItemClick(itemPosition: Int) {
-        favoriteIndex = when (itemPosition) {
-            0 -> false
-            1 -> true
-            else -> throw Exception("Incorrect index")
-        }
+
+    //FILTER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    override fun searchBarOnClick(string: String?) {
+        repository.getFilteredByText(string ?: "")
+        println("searchBarOnClick string - $string")
     }
 
-    override fun canceEditRecipelOnClick() {
+    override fun tabBarItemFavoriteClick(itemPosition: Int) {
+        favoriteIndex.value = when (itemPosition) {
+            0 -> false
+            1 -> true
+            else -> {
+                throw Exception("Tab index out of bound")
+            }
+        }
+        repository.getFavorite(favoriteIndex.value!!)
+    }
+
+    override fun filterOnCategoryClick() {
+        repository.getFilteredBiCategory(checkboxSet)
+    }
+
+    fun skipCheckboxFilter() {
+        checkboxSet = RepositoryImpl.fullCheckBox.toMutableSet()
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    override fun cancelEditRecipeOnClick() {
         editRecipe.value = null
     }
 
+
+    //OK
     override fun deleteOnClick(recipe: Recipe) {
         repository.delete(recipe)
     }
 
-    override fun filterOnClick() {
-        if (checkboxSet != fullCheckBox) {
-            //TODO noimpl
-        } else {
-            skipCheckboxFilter()
-            //TODO noimpl
-        }
-    }
-
-    override fun searchBarOnClick(string: String) {
-        //TODO no impl
-    }
-
-    //OK
     override fun frameOnShortClick(recipe: Recipe) {
         expandRecipe.value = recipe
     }
@@ -126,6 +119,7 @@ class RecipeViewModel(
     override fun frameOnLongClick(recipe: Recipe) {
         TODO("Not yet implemented")
     }
+
 
     //STEP actions
     override fun cancelEditStepOnClick() {
@@ -154,32 +148,34 @@ class RecipeViewModel(
         } else {
             repository.editStep(step)
         }
+        editStep.value = null
     }
 
     override fun addNewStepOnClick(recipe: Recipe) {
-        if(recipe.id == null) {
+        if (recipe.id == null) {
             Toast.makeText(context, "Сначала нужно сохранить рецепт", Toast.LENGTH_SHORT).show()
-        } else{
+        } else {
             val newStep = Step(
-                    parentId = recipe.id,
-                    stepId = null,
-                    description = "",
-                    imageUri = null
-                )
+                parentId = recipe.id,
+                stepId = null,
+                description = "",
+                imageUri = null
+            )
             editStep.value = newStep
         }
     }
 
     companion object {
-        private val categoryTextMap = mapOf<Category, String>(
-            Category.EUROPEAN to "Европейская",
-            Category.ASIAN to "Азиатская",
-            Category.PAN_ASIAN to "Паназиатская",
-            Category.EASTERN to "Восточная",
-            Category.AMERICAN to "Американская",
-            Category.RUSSIAN to "Русская",
-            Category.MEDITERRANEAN to "Средиземноморская",
-            Category.OTHER to "Другая"
+
+        private val categoryTextMap = mapOf(
+            EUROPEAN to "Европейская",
+            ASIAN to "Азиатская",
+            PAN_ASIAN to "Паназиатская",
+            EASTERN to "Восточная",
+            AMERICAN to "Американская",
+            RUSSIAN to "Русская",
+            MEDITERRANEAN to "Средиземноморская",
+            OTHER to "Другая"
         )
 
         fun getResourceText(category: Category): String {
