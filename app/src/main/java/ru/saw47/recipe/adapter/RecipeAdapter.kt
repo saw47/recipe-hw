@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.saw47.recipe.R
 import ru.saw47.recipe.data.*
+import ru.saw47.recipe.data.util.Util.getResourceText
 import ru.saw47.recipe.databinding.CardRecipeBinding
-import ru.saw47.recipe.viewmodel.RecipeViewModel.Companion.getResourceText
 
 class RecipeAdapter(
     private val listener: AppListener,

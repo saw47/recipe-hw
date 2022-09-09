@@ -29,11 +29,16 @@ class ContentMainFragment : Fragment() {
             inflater, container, false
         )
         val adapter = RecipeAdapter(viewModel)
+
         binding.recipeRecyclerView.adapter = adapter
         viewModel.recipeData.observe(viewLifecycleOwner) {recipes ->
             adapter.submitList(recipes)
         }
 
+        with(viewModel) {
+            clearExpandRecipeValue()
+            clearEditRecipeValue()
+        }
 
         if (viewModel.favoriteIndex.value != true) {
             binding.tabLayoutMain.selectTab(binding.tabLayoutMain.getTabAt(0))
@@ -48,7 +53,9 @@ class ContentMainFragment : Fragment() {
         }
 
         viewModel.expandRecipe.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_contentMainFragment_to_expandRecipeFragment)
+            if (it != null) {
+                findNavController().navigate(R.id.action_contentMainFragment_to_expandRecipeFragment)
+            }
         }
 
         binding.mainSearchCardTextTop.addTextChangedListener {

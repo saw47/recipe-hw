@@ -12,9 +12,9 @@ import androidx.navigation.fragment.findNavController
 import ru.saw47.recipe.R
 import ru.saw47.recipe.adapter.RecipeStepsAdapter
 import ru.saw47.recipe.data.Recipe
+import ru.saw47.recipe.data.util.Util.getResourceText
 import ru.saw47.recipe.databinding.FragmentExpandRecipeBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
-import ru.saw47.recipe.viewmodel.RecipeViewModel.Companion.getResourceText
 import java.lang.Exception
 
 class ExpandRecipeFragment : Fragment() {
@@ -30,6 +30,7 @@ class ExpandRecipeFragment : Fragment() {
         val context: Context = this.context ?: throw Exception("no context^")
 
         recipe = viewModel.expandRecipe.value!!
+
         val adapter = RecipeStepsAdapter(viewModel)
         binding.recipeStepsRecyclerview.adapter = adapter
 
@@ -45,8 +46,6 @@ class ExpandRecipeFragment : Fragment() {
                 findNavController().navigate(R.id.action_expandRecipeFragment_to_editStepFragment)
             } else println("editStep NULL")
         }
-
-
 
         bind(recipe, binding)
 
@@ -99,7 +98,7 @@ class ExpandRecipeFragment : Fragment() {
     }
 
     private fun bind(recipe: Recipe, binding: FragmentExpandRecipeBinding) {
-        //this.recipe = recipe
+        this.recipe = recipe
         with(binding) {
             expandRecipeName.text = recipe.name
             expandRecipeAuthor.text = recipe.author

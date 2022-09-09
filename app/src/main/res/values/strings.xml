@@ -37,15 +37,14 @@
     <string name="add_menu_top_string">Новый рецепт</string>
     <string name="add_step_recipe">Добавить шаг</string>
 
-
     <string-array name="category_spinner">
-        <item>Америанская</item>
-        <item>Азиатская</item>
-        <item>Восточная</item>
         <item>Европейская</item>
-        <item>Средиземноморская</item>
+        <item>Азиатская</item>
         <item>Паназиатская</item>
+        <item>Восточная</item>
+        <item>Америанская</item>
         <item>Русская</item>
+        <item>Средиземноморская</item>
         <item>Другая</item>
     </string-array>
 

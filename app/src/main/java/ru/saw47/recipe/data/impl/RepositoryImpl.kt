@@ -1,6 +1,5 @@
 package ru.saw47.recipe.data.impl
 
-import android.media.CamcorderProfile.getAll
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
@@ -8,8 +7,8 @@ import ru.saw47.recipe.data.Category
 import ru.saw47.recipe.data.Step
 import ru.saw47.recipe.data.Recipe
 import ru.saw47.recipe.data.Repository
+import ru.saw47.recipe.data.util.Util.fullCheckBox
 import ru.saw47.recipe.db.AppDao
-import ru.saw47.recipe.db.RecipeEntity
 import ru.saw47.recipe.db.toEntity
 import ru.saw47.recipe.db.toModel
 
@@ -99,10 +98,4 @@ class RepositoryImpl(
     }
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    companion object {
-        val fullCheckBox = setOf(
-            Category.EUROPEAN, Category.ASIAN, Category.PAN_ASIAN, Category.EASTERN,
-            Category.AMERICAN, Category.RUSSIAN, Category.MEDITERRANEAN, Category.OTHER
-        )
-    }
 }

@@ -12,6 +12,7 @@ import ru.saw47.recipe.data.Recipe
 import ru.saw47.recipe.data.Repository
 import ru.saw47.recipe.data.impl.RepositoryImpl
 import ru.saw47.recipe.data.util.SingleLiveEvent
+import ru.saw47.recipe.data.util.Util.fullCheckBox
 import ru.saw47.recipe.db.AppDb
 import java.lang.Exception
 
@@ -32,14 +33,20 @@ class RecipeViewModel(
     val stepData
         get() = repository.stepsData
 
+
     val expandRecipe = SingleLiveEvent<Recipe>()
     val editRecipe = SingleLiveEvent<Recipe?>()
+
     val editStep = SingleLiveEvent<Step?>()
     var favoriteIndex = MutableLiveData<Boolean>()
     var checkboxSet = mutableSetOf<Category>()
 
     fun clearEditRecipeValue() {
         editRecipe.value = null
+    }
+
+    fun clearExpandRecipeValue() {
+        expandRecipe.value = null
     }
 
     fun clearEditStepValue() {
@@ -49,7 +56,7 @@ class RecipeViewModel(
 
     init {
         favoriteIndex.value = false
-        checkboxSet = RepositoryImpl.fullCheckBox.toMutableSet()
+        checkboxSet = fullCheckBox.toMutableSet()
     }
 
 
@@ -62,7 +69,11 @@ class RecipeViewModel(
     }
 
     override fun saveOnClick(recipe: Recipe) {
+        if(editRecipe.value == expandRecipe.value) {
+            expandRecipe.value = recipe
+        }
         if (recipe.id == null) repository.add(recipe) else repository.replace(recipe)
+        clearEditRecipeValue()
     }
 
     override fun addNewOnClick() {
@@ -97,7 +108,7 @@ class RecipeViewModel(
     }
 
     fun skipCheckboxFilter() {
-        checkboxSet = RepositoryImpl.fullCheckBox.toMutableSet()
+        checkboxSet = fullCheckBox.toMutableSet()
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -143,6 +154,7 @@ class RecipeViewModel(
     }
 
     override fun saveStepOnClick(step: Step) {
+
         if (step.stepId == null) {
             repository.addNewStep(step)
         } else {
@@ -162,25 +174,6 @@ class RecipeViewModel(
                 imageUri = null
             )
             editStep.value = newStep
-        }
-    }
-
-    companion object {
-
-        private val categoryTextMap = mapOf(
-            EUROPEAN to "Европейская",
-            ASIAN to "Азиатская",
-            PAN_ASIAN to "Паназиатская",
-            EASTERN to "Восточная",
-            AMERICAN to "Американская",
-            RUSSIAN to "Русская",
-            MEDITERRANEAN to "Средиземноморская",
-            OTHER to "Другая"
-        )
-
-        fun getResourceText(category: Category): String {
-            return categoryTextMap[category]
-                ?: throw Exception("invalid request, no such a category")
         }
     }
 }
