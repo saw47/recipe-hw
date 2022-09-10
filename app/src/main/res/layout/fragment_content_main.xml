@@ -46,13 +46,14 @@
                     android:id="@+id/cancel_search_button_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@android:color/transparent"
                     android:src="@drawable/ic_baseline_cancel_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/main_search_card_text_top"
                     android:layout_marginEnd="@dimen/margin_outline_2dp"
+                    android:layout_marginStart="@dimen/margin_outline_2dp"
                     >
                 </androidx.appcompat.widget.AppCompatImageButton>
             </androidx.constraintlayout.widget.ConstraintLayout>
