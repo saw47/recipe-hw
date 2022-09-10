@@ -76,9 +76,9 @@
                     android:layout_height="wrap_content"
                     app:fabSize="mini"
                     android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
-                    android:layout_marginStart="@dimen/margin_fab_vertical_96dp"
+                    android:layout_marginEnd="@dimen/margin_vertical_120dp"
                     android:src="@drawable/ic_baseline_edit_24dp"
-                    android:layout_gravity="center|bottom"
+                    android:layout_gravity="end|bottom"
                     >
                 </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
@@ -86,9 +86,10 @@
                     android:id="@+id/remove_step_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
+                    android:layout_gravity="end|bottom"
                     app:fabSize="mini"
                     android:layout_marginBottom="@dimen/margin_common_spacing_8dp"
+                    android:layout_marginEnd="@dimen/margin_vertical_76dp"
                     android:src="@drawable/ic_baseline_delete_24dp"
                     >
                 </com.google.android.material.floatingactionbutton.FloatingActionButton>
