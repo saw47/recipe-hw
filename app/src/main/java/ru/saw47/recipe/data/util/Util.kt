@@ -1,9 +1,11 @@
 package ru.saw47.recipe.data.util
 
-import ru.saw47.recipe.data.Category
 import java.lang.Exception
 
 object Util {
+    const val MOVE_UP: Int = 1
+    const val MOVE_DOWN: Int = -1
+
     val fullCheckBox = setOf(
         Category.EUROPEAN,
         Category.ASIAN,

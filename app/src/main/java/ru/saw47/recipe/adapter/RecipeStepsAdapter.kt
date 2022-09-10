@@ -1,11 +1,11 @@
 package ru.saw47.recipe.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.recipe_step_card.view.*
 import ru.saw47.recipe.data.*
 import ru.saw47.recipe.databinding.RecipeStepCardBinding
 
@@ -28,38 +28,47 @@ class RecipeStepsAdapter(
         private val binding: RecipeStepCardBinding,
         listener: StepsInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
-
         lateinit var step: Step
 
         fun bind(step: Step) {
             this.step = step
             with(binding) {
                 stepText.text = step.description
-                if (step.imageUri != null) {
-                    stepImage.setImageURI(step.imageUri)
-                }
             }
         }
 
         init {
-            binding.editStepFab.setOnClickListener() {
-                listener.editStepOnClick(step)
-            }
-            binding.removeStepFab.setOnClickListener() {
-                listener.deleteStepOnClick(step)
+            with(binding) {
+                feedStepFrame.setOnClickListener {
+                    if (listener.upDownButtonStateStep.value == true) {
+                        listener.hideUpDownButtonsStep()
+                    }
+                }
+
+                feedStepFrame.setOnLongClickListener(View.OnLongClickListener {
+                    listener.showUpDownButtonsStep()
+                    listener.setMovableStep(step)
+                    true
+                })
+
+
+                binding.editStepFab.setOnClickListener() {
+                    listener.editStepOnClick(step)
+                }
+                binding.removeStepFab.setOnClickListener() {
+                    listener.deleteStepOnClick(step)
+                }
             }
         }
     }
 
-
     object DiffCallback : DiffUtil.ItemCallback<Step>() {
         override fun areItemsTheSame(oldItem: Step, newItem: Step): Boolean {
-            return oldItem.stepId == newItem.stepId
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Step, newItem: Step): Boolean {
             return oldItem == newItem
         }
-
     }
 }

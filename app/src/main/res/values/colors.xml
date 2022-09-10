@@ -8,8 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray_pink">#997a8d</color>
-    <color name="light_gray_pink">#E7DADA</color>
+    <color name="light_gray">#a0a0a0</color>
     <color name="soft_gray">#494761</color>
-
-
+    <color name="soft_black">#353535</color>
+    <color name="soft_brown">#7a4943</color>
 </resources>

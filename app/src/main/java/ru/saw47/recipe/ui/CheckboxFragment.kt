@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_checkbox.*
 import ru.saw47.recipe.R
-import ru.saw47.recipe.data.Category
+import ru.saw47.recipe.data.util.Category
 import ru.saw47.recipe.databinding.FragmentCheckboxBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
 
@@ -46,71 +46,61 @@ class CheckboxFragment : Fragment() {
         with(binding) {
             checkboxAmerican.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
 
             checkboxAsian.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
 
             checkboxPanAsian.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
 
             checkboxMediterranean.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
 
             checkboxRussian.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
 
             checkboxEastern.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
 
             checkboxEuropean.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
 
             checkboxOther.setOnCheckedChangeListener { view, checked ->
                 onCheckboxClicked(view, checked, binding)
-                println(viewModel.checkboxSet!!.size)  //SERVICE!!!!!
             }
         }
-
         return binding.root
     }
 
     private fun bind(binding: FragmentCheckboxBinding) {
         with(binding) {
             checkboxAmerican.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.AMERICAN)
+                viewModel.checkboxSet.contains(Category.AMERICAN)
             checkboxAsian.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.ASIAN)
+                viewModel.checkboxSet.contains(Category.ASIAN)
             checkboxPanAsian.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.PAN_ASIAN)
+                viewModel.checkboxSet.contains(Category.PAN_ASIAN)
             checkboxMediterranean.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.MEDITERRANEAN)
+                viewModel.checkboxSet.contains(Category.MEDITERRANEAN)
             checkboxRussian.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.RUSSIAN)
+                viewModel.checkboxSet.contains(Category.RUSSIAN)
             checkboxEastern.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.EASTERN)
+                viewModel.checkboxSet.contains(Category.EASTERN)
             checkboxEuropean.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.EUROPEAN)
+                viewModel.checkboxSet.contains(Category.EUROPEAN)
             checkboxOther.isChecked =
-                viewModel.checkboxSet.contains(ru.saw47.recipe.data.Category.OTHER)
+                viewModel.checkboxSet.contains(Category.OTHER)
         }
-        println("BIND" + viewModel.checkboxSet.size)  //SERVICE!!!!!
     }
 
-    fun lastCheckbox(binding: FragmentCheckboxBinding) {
+    private fun lastCheckbox(binding: FragmentCheckboxBinding) {
         if (viewModel.checkboxSet.size < 1) {
             viewModel.skipCheckboxFilter()
             bind(binding)
@@ -118,97 +108,66 @@ class CheckboxFragment : Fragment() {
     }
 
 
-    fun onCheckboxClicked(view: View, checked: Boolean, binding: FragmentCheckboxBinding) {
+    private fun onCheckboxClicked(view: View, checked: Boolean, binding: FragmentCheckboxBinding) {
         when (view) {
             checkbox_american -> {
                 if (!checked) {
                     viewModel.checkboxSet.remove(Category.AMERICAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet.size}")  //SERVICE!!!!!
-
                 } else {
                         viewModel.checkboxSet.add(Category.AMERICAN)
-                        println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
                 }
             }
             checkbox_asian -> {
                 if (!checked) {
-                    viewModel.checkboxSet!!.remove(Category.ASIAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
-
+                    viewModel.checkboxSet.remove(Category.ASIAN)
                 } else {
-                    viewModel.checkboxSet!!.add(Category.ASIAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
+                    viewModel.checkboxSet.add(Category.ASIAN)
                 }
             }
             checkbox_mediterranean -> {
                 if (!checked) {
-                    viewModel.checkboxSet!!.remove(Category.MEDITERRANEAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
-
+                    viewModel.checkboxSet.remove(Category.MEDITERRANEAN)
                 } else {
-                    viewModel.checkboxSet!!.add(Category.MEDITERRANEAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
+                    viewModel.checkboxSet.add(Category.MEDITERRANEAN)
                 }
             }
             checkbox_eastern -> {
                 if (!checked) {
-                    viewModel.checkboxSet!!.remove(Category.EASTERN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
-
+                    viewModel.checkboxSet.remove(Category.EASTERN)
                 } else {
-                    viewModel.checkboxSet!!.add(Category.EASTERN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
+                    viewModel.checkboxSet.add(Category.EASTERN)
                 }
             }
 
             checkbox_other -> {
                 if (!checked) {
-                    viewModel.checkboxSet!!.remove(Category.OTHER)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
-
+                    viewModel.checkboxSet.remove(Category.OTHER)
                 } else {
-                    viewModel.checkboxSet!!.add(Category.OTHER)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
+                    viewModel.checkboxSet.add(Category.OTHER)
                 }
             }
-
             checkbox_european -> {
                 if (!checked) {
-                    viewModel.checkboxSet!!.remove(Category.EUROPEAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
-
+                    viewModel.checkboxSet.remove(Category.EUROPEAN)
                 } else {
-                    viewModel.checkboxSet!!.add(Category.EUROPEAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
+                    viewModel.checkboxSet.add(Category.EUROPEAN)
                 }
             }
-
             checkbox_pan_asian -> {
                 if (!checked) {
-                    viewModel.checkboxSet!!.remove(Category.PAN_ASIAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
-
+                    viewModel.checkboxSet.remove(Category.PAN_ASIAN)
                 } else {
-                    viewModel.checkboxSet!!.add(Category.PAN_ASIAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
+                    viewModel.checkboxSet.add(Category.PAN_ASIAN)
                 }
             }
-
             checkbox_russian -> {
                 if (!checked) {
-                    viewModel.checkboxSet!!.remove(Category.RUSSIAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
-
+                    viewModel.checkboxSet.remove(Category.RUSSIAN)
                 } else {
-                    viewModel.checkboxSet!!.add(Category.RUSSIAN)
-                    println("${view.javaClass.name} --> $checked + ${viewModel.checkboxSet!!.size}")  //SERVICE!!!!!
+                    viewModel.checkboxSet.add(Category.RUSSIAN)
                 }
             }
         }
-
         lastCheckbox(binding)
-
     }
-
-
 }

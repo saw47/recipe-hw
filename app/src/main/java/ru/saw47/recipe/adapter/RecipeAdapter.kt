@@ -1,6 +1,9 @@
 package ru.saw47.recipe.adapter
 
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.OnLongClickListener
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +13,7 @@ import ru.saw47.recipe.R
 import ru.saw47.recipe.data.*
 import ru.saw47.recipe.data.util.Util.getResourceText
 import ru.saw47.recipe.databinding.CardRecipeBinding
+
 
 class RecipeAdapter(
     private val listener: AppListener,
@@ -30,7 +34,6 @@ class RecipeAdapter(
         private val binding: CardRecipeBinding,
         listener: AppListener
     ) : RecyclerView.ViewHolder(binding.root) {
-
         private lateinit var recipe: Recipe
 
         private val popupMenu by lazy {
@@ -54,25 +57,34 @@ class RecipeAdapter(
         }
 
         init {
+            with(binding) {
+                feedPostFrame.setOnClickListener {
+                    if(listener.upDownButtonState.value == true) {
+                        listener.hideUpDownButtons()
+                    } else {
+                        listener.frameOnShortClick(recipe)
+                    }
+                }
 
+                feedPostFrame.setOnLongClickListener(OnLongClickListener {
+                    listener.showUpDownButtons()
+                    listener.setMovableRecipe(recipe)
+                    true
+                }
+                )
 
-            binding.feedPostFrame.setOnClickListener {
-                listener.frameOnShortClick(recipe)
-            }
+                favoriteButton.setOnClickListener {
+                    listener.favoriteOnClick(recipe)
+                    bind(recipe)
+                }
 
-            binding.favoriteButton.setOnClickListener {
-                listener.favoriteOnClick(recipe)
-                bind(recipe)
-            }
-
-            binding.optionsButton.setOnClickListener {
-                popupMenu.show()
-                binding.optionsButton.isChecked = true
+                optionsButton.setOnClickListener {
+                    popupMenu.show()
+                }
             }
 
             popupMenu.setOnDismissListener() {
                 popupMenu.dismiss()
-                binding.optionsButton.isChecked = false
             }
         }
 
@@ -82,9 +94,6 @@ class RecipeAdapter(
                 recipeName.text = recipe.name
                 recipeAuthor.text = recipe.author
                 recipeCategory.text = getResourceText(recipe.category)
-                if (recipe.imageUri != null) {
-                    //recipeImage.setImageURI(recipe.imageUri)
-                }
                 favoriteButton.isChecked = recipe.isFavorite
             }
         }
@@ -98,7 +107,6 @@ class RecipeAdapter(
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
             return oldItem == newItem
         }
-
     }
 
 }

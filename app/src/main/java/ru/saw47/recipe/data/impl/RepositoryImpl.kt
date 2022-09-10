@@ -1,9 +1,7 @@
 package ru.saw47.recipe.data.impl
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
-import ru.saw47.recipe.data.Category
+import ru.saw47.recipe.data.util.Category
 import ru.saw47.recipe.data.Step
 import ru.saw47.recipe.data.Recipe
 import ru.saw47.recipe.data.Repository
@@ -19,11 +17,14 @@ class RepositoryImpl(
     override val data: MutableLiveData<List<Recipe>> =
         MutableLiveData(dao.getAll().map { it.toModel() })
 
+    override val stepsData: MutableLiveData<List<Step>> =
+        MutableLiveData(dao.getSteps().map { it.toModel() })
+
     private var indexFavorite: Boolean = false
     private var indexString: String = ""
     private var indexCategorySet = fullCheckBox
 
-    private fun refreshData() {
+    private fun refreshRecipeData() {
         var recipes = dao.getAll().map { it.toModel() }
         if (indexFavorite) recipes = recipes.filter { it.isFavorite }
         if (indexString.isNotBlank()) recipes =
@@ -32,70 +33,61 @@ class RepositoryImpl(
             indexCategorySet.contains(it.category)
         }
         data.value = recipes
-        println("getFavorite - $indexFavorite")
-        println("indexString - $indexString")
-        println("indexCategorySet = $indexCategorySet")
     }
 
-    //Filter>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    private fun refreshStepData() {
+        val steps = dao.getSteps().map { it.toModel() }
+        stepsData.value = steps
+    }
+
     override fun getFavorite(favorite: Boolean) {
         indexFavorite = favorite
-        refreshData()
+        refreshRecipeData()
     }
 
     override fun getFilteredByText(text: String) {
         indexString = text
-        refreshData()
+        refreshRecipeData()
     }
 
     override fun getFilteredBiCategory(set: Set<Category>) {
         indexCategorySet = set
-        refreshData()
+        refreshRecipeData()
     }
-    //<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    //CRUD>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    override fun add(recipe: Recipe) {
-        dao.insert(recipe.toEntity())
-        println("repository add" + recipe.id)
+    override fun add(recipe: Recipe): Long {
+        val newId = dao.insert(recipe.toEntity())
+        refreshRecipeData()
+        return newId
     }
 
     override fun delete(recipe: Recipe) {
-        println("delete in repo id ${recipe.id}")
         dao.delete(recipe.toEntity())
-        println("repository del" + recipe.id)
+        refreshRecipeData()
     }
 
     override fun replace(recipe: Recipe) {
-        val r = dao.update(recipe.toEntity())
-        println("replace id -" + recipe.id)
-        println("replace name -" + recipe.name)
-        println("update $r entities")
+        dao.update(recipe.toEntity())
+        refreshRecipeData()
     }
 
     override fun addToFavorite(recipe: Recipe) {
         recipe.id?.let { dao.like(it) }
-        refreshData()
+        refreshRecipeData()
     }
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-    // STEPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    override val stepsData: LiveData<List<Step>>
-        get() = dao.getSteps().map { entities ->
-            entities.map { it.toModel() }
-        }
 
     override fun addNewStep(step: Step) {
         dao.insertStep(step.toEntity())
+        refreshStepData()
     }
 
     override fun deleteStep(step: Step) {
         dao.deleteStep(step.toEntity())
+        refreshStepData()
     }
 
     override fun editStep(step: Step) {
         dao.updateStep(step.toEntity())
+        refreshStepData()
     }
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 }

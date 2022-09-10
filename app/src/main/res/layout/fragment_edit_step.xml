@@ -47,11 +47,12 @@
                     android:layout_marginStart="@dimen/margin_common_spacing_8dp"
                     android:layout_marginEnd="@dimen/margin_common_spacing_8dp"
                     android:layout_marginTop="@dimen/margin_common_spacing_8dp"
-                    android:background="@color/light_gray_pink"
+                    android:background="@color/light_gray"
                     android:gravity="start"
                     android:minHeight="@dimen/recipe_card_height_240dp"
                     android:hint="@string/hint_recipe_description"
                     android:textSize="@dimen/text_middle_spacing_16sp"
+                    android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/image_frame"
                     />
@@ -74,16 +75,16 @@
                         android:id="@+id/image_step_editable"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/recipe_card_height_320dp"
-                        android:src="@drawable/food_card_background"
+                        android:src="@drawable/dummy_4"
                         android:scaleType="centerCrop"
                         >
-
                     </ImageView>
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:background="@android:color/transparent"
                         app:cardCornerRadius="@dimen/corner_common_spacing_12dp"
                         >
                         <androidx.appcompat.widget.AppCompatImageButton
@@ -92,7 +93,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_baseline_delete_72dp"
-                            android:background="@color/soft_gray"
+                            android:background="@android:color/transparent"
                             >
                         </androidx.appcompat.widget.AppCompatImageButton>
                     </androidx.cardview.widget.CardView>

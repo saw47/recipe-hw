@@ -16,6 +16,7 @@ import ru.saw47.recipe.R
 import ru.saw47.recipe.adapter.RecipeStepsAdapter
 import ru.saw47.recipe.data.Recipe
 import ru.saw47.recipe.data.util.Util
+import ru.saw47.recipe.data.util.hideKeyboard
 import ru.saw47.recipe.databinding.FragmentEditRecipeBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
 
@@ -25,7 +26,6 @@ class EditRecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
     lateinit var recipe: Recipe
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,8 +34,7 @@ class EditRecipeFragment : Fragment() {
         val binding = FragmentEditRecipeBinding.inflate(
             inflater, container, false
         )
-        val context: Context = this.context ?: throw Exception("no context^")
-
+        val context: Context = this.context ?: throw Exception("no context")
         recipe = viewModel.editRecipe.value!!
 
         val adapter = RecipeStepsAdapter(viewModel)
@@ -45,10 +44,11 @@ class EditRecipeFragment : Fragment() {
             adapter.submitList(steps.filter { it.parentId == recipe.id })
         }
 
-        //spinner>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        val spinner: Spinner = binding.categorySpinner
-        var choiceUser: String? = null
+        viewModel.hideUpDownButtonsStep()
 
+        bind(recipe, binding)
+
+        val spinner: Spinner = binding.categorySpinner
         val spinnerAdapter = ArrayAdapter.createFromResource(
             context,
             R.array.category_spinner,
@@ -56,30 +56,33 @@ class EditRecipeFragment : Fragment() {
         )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = spinnerAdapter
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                itemSelected: View, selectedItemPosition: Int, selectedId: Long
-            ) {
-                val choose = resources.getStringArray(R.array.category_spinner)
-                choiceUser = choose[selectedItemPosition]
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
         spinner.setSelection(Util.fullCheckBox.indexOf(recipe.category))
 
-        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        bind(recipe, binding)
+        viewModel.upDownButtonStateStep.observe(viewLifecycleOwner) { state ->
+            when(state) {
+                false -> {
+                    binding.goneDownStep.visibility = View.GONE
+                    binding.goneUpStep.visibility = View.GONE
+                }
+                true -> {
+                    binding.goneDownStep.visibility = View.VISIBLE
+                    binding.goneUpStep.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.goneUpStep.setOnClickListener() {
+            viewModel.moveStep(Util.MOVE_UP)
+        }
+
+        binding.goneDownStep.setOnClickListener() {
+            viewModel.moveStep(Util.MOVE_DOWN)
+        }
 
         viewModel.editStep.observe(viewLifecycleOwner) {
-            println("edit stepId ${it?.stepId} from recipe ${it?.parentId}")
             if (it != null) {
-                println("editStep ${it.stepId}")
                 findNavController().navigate(R.id.action_editRecipeFragment_to_editStepFragment)
-            } else println("editStep NULL")
+            }
         }
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
@@ -92,13 +95,21 @@ class EditRecipeFragment : Fragment() {
                     true
                 }
                 R.id.save_edit_ed -> {
-                    recipe = recipe.copy(
-                        name = binding.editRecipeName.text.toString(),
-                        author = binding.editAuthorText.text.toString(),
-                        category = choiceUser?.let { Util.getCategory(it) } ?: recipe.category
-                    )
-                    viewModel.saveOnClick(recipe)
-                    findNavController().popBackStack()
+                    if(binding.editRecipeName.text.toString().isNotBlank()) {
+                        recipe = recipe.copy(
+                            name = binding.editRecipeName.text.toString(),
+                            author = binding.editAuthorText.text.toString(),
+                            category = spinner.selectedItem.toString()
+                                .let { Util.getCategory(it) } ?: recipe.category
+                        )
+                        viewModel.saveOnClick(recipe)
+                        viewModel.clearEditRecipeValue()
+                        findNavController().popBackStack()
+                        view?.hideKeyboard()
+                        Toast.makeText(context, R.string.toast_save_recipe,Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, R.string.toast_empty_recipe,Toast.LENGTH_LONG).show()
+                    }
                     true
                 }
                 else -> false
@@ -107,10 +118,7 @@ class EditRecipeFragment : Fragment() {
 
         binding.expandAddStepFab.setOnClickListener() {
             viewModel.addNewStepOnClick(recipe)
-            println("addNewStepOnClick in recipe ${recipe.id}")
         }
-
-
         return binding.root
     }
 

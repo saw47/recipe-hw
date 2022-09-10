@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import ru.saw47.recipe.R
 import ru.saw47.recipe.adapter.RecipeStepsAdapter
 import ru.saw47.recipe.data.Recipe
+import ru.saw47.recipe.data.util.Util
 import ru.saw47.recipe.data.util.Util.getResourceText
 import ru.saw47.recipe.databinding.FragmentExpandRecipeBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
@@ -35,19 +36,44 @@ class ExpandRecipeFragment : Fragment() {
         binding.recipeStepsRecyclerview.adapter = adapter
 
         viewModel.stepData.observe(viewLifecycleOwner) { steps ->
-            adapter.submitList(steps.filter { it.parentId == recipe.id })
+            val list = steps.filter { it.parentId == recipe.id }
+            adapter.submitList(list)
+            if (list.isEmpty()) {
+                binding.dummy.visibility = View.VISIBLE
+            } else {
+                binding.dummy.visibility = View.GONE
+            }
         }
 
 
         viewModel.editStep.observe(viewLifecycleOwner) {
-            println("edit stepId ${it?.stepId} from recipe ${it?.parentId}")
             if (it != null) {
-                println("editStep ${it.stepId}")
                 findNavController().navigate(R.id.action_expandRecipeFragment_to_editStepFragment)
-            } else println("editStep NULL")
+            }
         }
 
         bind(recipe, binding)
+
+        viewModel.upDownButtonStateStep.observe(viewLifecycleOwner) { state ->
+            when(state) {
+                false -> {
+                    binding.goneDownStep.visibility = View.GONE
+                    binding.goneUpStep.visibility = View.GONE
+                }
+                true -> {
+                    binding.goneDownStep.visibility = View.VISIBLE
+                    binding.goneUpStep.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.goneUpStep.setOnClickListener() {
+            viewModel.moveStep(Util.MOVE_UP)
+        }
+
+        binding.goneDownStep.setOnClickListener() {
+            viewModel.moveStep(Util.MOVE_DOWN)
+        }
 
         val menu = PopupMenu(context, binding.expandRecipeOptionsButton)
         menu.apply {

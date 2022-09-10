@@ -66,7 +66,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -82,25 +81,22 @@
                 android:layout_height="wrap_content"
                 android:text="@string/favorite_recipe" />
         </com.google.android.material.tabs.TabLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        >
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/recipeImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.3"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/food_vegetables">
-
+            app:srcCompat="@drawable/food_vegetables"
+            >
         </androidx.appcompat.widget.AppCompatImageView>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeRecyclerView"
@@ -114,10 +110,45 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/card_recipe">
-
         </androidx.recyclerview.widget.RecyclerView>
 
-
+        <ImageView
+            android:id="@+id/dummy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginTop="@dimen/margin_fab_vertical_96dp"
+            android:src="@drawable/dummy"
+            android:scaleType="centerCrop"
+            >
+        </ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/gone_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_gravity="center|start"
+        android:layout_marginTop="@dimen/margin_vertical_76dp"
+        android:layout_marginStart="@dimen/common_spacing_24dp"
+        android:src="@drawable/ic_baseline_keyboard_arrow_down_24dp"
+        >
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/gone_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_gravity="center|start"
+        android:layout_marginBottom="@dimen/margin_vertical_76dp"
+        android:layout_marginStart="@dimen/common_spacing_24dp"
+        android:src="@drawable/ic_baseline_keyboard_arrow_up_24dp"
+        >
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

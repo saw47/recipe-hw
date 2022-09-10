@@ -30,18 +30,17 @@ internal fun Recipe.toEntity() = if (id == null) {
         category = category,
         isFavorite = isFavorite
     )
-
 }
 
 
 internal fun StepEntity.toModel() = Step(
-    stepId = stepId,
+    id = id,
     parentId = parentId,
     description = description,
     imageUri = imageUri.toUri()
 )
 
-internal fun Step.toEntity() = if(stepId == null){
+internal fun Step.toEntity() = if(id == null){
     StepEntity(
         parentId = parentId,
         description = description,
@@ -49,7 +48,7 @@ internal fun Step.toEntity() = if(stepId == null){
     )
 } else {
     StepEntity(
-        stepId = stepId,
+        id = id,
         parentId = parentId,
         description = description,
         imageUri = imageUri.toString()

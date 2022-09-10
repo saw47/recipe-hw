@@ -1,5 +1,6 @@
 package ru.saw47.recipe.ui
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.fragment_content_main.*
 import ru.saw47.recipe.R
 import ru.saw47.recipe.adapter.RecipeAdapter
 import ru.saw47.recipe.data.Recipe
+import ru.saw47.recipe.data.util.Util
 import ru.saw47.recipe.data.util.hideKeyboard
 import ru.saw47.recipe.databinding.FragmentContentMainBinding
 import ru.saw47.recipe.viewmodel.RecipeViewModel
@@ -33,6 +35,10 @@ class ContentMainFragment : Fragment() {
         binding.recipeRecyclerView.adapter = adapter
         viewModel.recipeData.observe(viewLifecycleOwner) {recipes ->
             adapter.submitList(recipes)
+
+            if (viewModel.recipeData.value.isNullOrEmpty()) {
+                binding.dummy.visibility = View.VISIBLE
+            }
         }
 
         with(viewModel) {
@@ -40,10 +46,28 @@ class ContentMainFragment : Fragment() {
             clearEditRecipeValue()
         }
 
-        if (viewModel.favoriteIndex.value != true) {
-            binding.tabLayoutMain.selectTab(binding.tabLayoutMain.getTabAt(0))
-        } else {
-            binding.tabLayoutMain.selectTab(binding.tabLayoutMain.getTabAt(1))
+        val tabIndex = if (viewModel.favoriteIndex.value != true) 0 else 1
+        binding.tabLayoutMain.selectTab(binding.tabLayoutMain.getTabAt(tabIndex))
+
+        viewModel.upDownButtonState.observe(viewLifecycleOwner) { state ->
+            when(state) {
+                false -> {
+                    binding.goneDown.visibility = View.GONE
+                    binding.goneUp.visibility = View.GONE
+                }
+                true -> {
+                    binding.goneDown.visibility = View.VISIBLE
+                    binding.goneUp.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.goneUp.setOnClickListener() {
+            viewModel.moveRecipe(Util.MOVE_UP)
+        }
+
+        binding.goneDown.setOnClickListener() {
+            viewModel.moveRecipe(Util.MOVE_DOWN)
         }
 
         viewModel.editRecipe.observe(viewLifecycleOwner) {
@@ -60,14 +84,14 @@ class ContentMainFragment : Fragment() {
 
         binding.mainSearchCardTextTop.addTextChangedListener {
             viewModel.searchBarOnClick(it.toString())
-
+            showDummy(binding)
         }
 
         binding.cancelSearchButtonTop.setOnClickListener() {
             viewModel.searchBarOnClick(null)
             binding.mainSearchCardTextTop.text!!.clear()
             binding.mainSearchCardTextTop.hideKeyboard()
-
+            showDummy(binding)
         }
 
         binding.tabLayoutMain.addOnTabSelectedListener(
@@ -75,6 +99,7 @@ class ContentMainFragment : Fragment() {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     if (tab != null) {
                         viewModel.tabBarItemFavoriteClick(tab.position)
+                        showDummy(binding)
                     }
                 }
                 override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -83,7 +108,6 @@ class ContentMainFragment : Fragment() {
                 }
             }
         )
-
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -98,8 +122,14 @@ class ContentMainFragment : Fragment() {
                 else -> false
             }
         }
-
-
         return binding.root
+    }
+
+    fun showDummy(binding: FragmentContentMainBinding) {
+        if (viewModel.recipeData.value.isNullOrEmpty()) {
+            binding.dummy.visibility = View.VISIBLE
+        } else {
+            binding.dummy.visibility = View.GONE
+        }
     }
 }

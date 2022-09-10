@@ -1,10 +1,9 @@
 package ru.saw47.recipe.db
 
-import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.saw47.recipe.data.Category
+import ru.saw47.recipe.data.util.Category
 
 @Entity(tableName = "recipes")
 class RecipeEntity(

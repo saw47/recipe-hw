@@ -1,10 +1,12 @@
 package ru.saw47.recipe.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.saw47.recipe.R
@@ -17,15 +19,14 @@ class EditStepFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
     lateinit var step: Step
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
+        val context: Context = this.context ?: throw Exception("no context")
         val binding = FragmentEditStepBinding.inflate(inflater, container, false)
         step = viewModel.editStep.value!!
-        bind(step, binding)
 
         binding.editStepDescription.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -42,7 +43,8 @@ class EditStepFragment : Fragment() {
 
         binding.deleteImageButton.setOnClickListener() {
             viewModel.deleteStepImageOnClick(step)
-            bind(step.copy(description = binding.editStepDescription.text.toString()), binding)
+            Toast.makeText(context, "А это мы пока не умеем", Toast.LENGTH_LONG)
+                .show()
         }
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
@@ -58,24 +60,30 @@ class EditStepFragment : Fragment() {
                     true
                 }
                 R.id.save_edit_ed_st -> {
-                    step = step.copy(
-                        description = binding.editStepDescription.text.toString()
-                    )
-                    viewModel.saveStepOnClick(step)
-                    findNavController().popBackStack()
+                    if (binding.editStepDescription.text.toString().isNotBlank()) {
+                        step = step.copy(
+                            description = binding.editStepDescription.text.toString()
+                        )
+                        viewModel.saveStepOnClick(step)
+                        findNavController().popBackStack()
+                    } else {
+                        Toast.makeText(context, "Пустой шаг не сохранить", Toast.LENGTH_LONG)
+                            .show()
+                    }
                     true
                 }
                 else -> false
             }
         }
+
+        bind(step, binding)
         return binding.root
     }
-
 
     private fun bind(step: Step, binding: FragmentEditStepBinding) {
         binding.editStepDescription.setText(step.description)
         if (step.imageUri != null) {
-            binding.imageStepEditable //прикрутить загрузку картинки
+            /*здесь не реализована загрузка картинки*/
         }
     }
 }

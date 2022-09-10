@@ -17,8 +17,8 @@ import androidx.room.PrimaryKey
 )
 class StepEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "stepId")
-    val stepId: Int = 0,
+    @ColumnInfo(name = "id")
+    val id: Long = 0,
     @ColumnInfo(name = "parentId")
     val parentId: Long,
     @ColumnInfo(name = "description")
