@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
         entity = RecipeEntity::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("parentId"),
-        onDelete = CASCADE
+        onDelete = CASCADE,
     )]
 )
 class StepEntity(
