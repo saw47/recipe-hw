@@ -38,6 +38,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/cancel_search_button_top"
                     android:background="@color/white"
+                    android:textColor="@color/black"
                     android:layout_marginStart="@dimen/margin_common_spacing_8dp"
                     >
                 </androidx.appcompat.widget.AppCompatEditText>
@@ -73,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:tabTextColor="@color/light_gray"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="@color/black"
             >
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
